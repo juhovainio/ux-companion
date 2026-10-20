@@ -1,6 +1,6 @@
 # Golden scenarios
 
-Eleven scenarios, run by hand. No eval harness for a POC — add one when running these manually
+Thirteen scenarios, run by hand. No eval harness for a POC — add one when running these manually
 starts hurting.
 
 Run each in a scratch directory so `.ux/` starts in a known state. Record pass/fail and what
@@ -288,6 +288,63 @@ visual pipeline builder and we don't."
 builder for parity, restates the stale claim without a date or a re-check, states a recalled
 competitor behaviour as fact, leaves a gap unsorted so it reads as a backlog item, or rewrites
 `.ux/PRINCIPLES.md` itself instead of proposing the change.
+
+---
+
+## 12. A configured root, read back by the next skill
+
+**State:** `.ux/config.md` exists with `**Root:** docs/ux/`. A brief already sits at
+`docs/ux/briefs/retry-wrapper.md`. Nothing in `.ux/` except the config file.
+
+**Input:** "Design this."
+
+**Expect**
+
+- The skill **states the root out loud** before doing anything — "Artefacts: `docs/ux/`."
+- It finds the existing brief at `docs/ux/briefs/retry-wrapper.md`. It does **not** report that
+  no brief exists, and does not re-interview for a problem already written down.
+- The spec is written to `docs/ux/specs/retry-wrapper.md`. Nothing is created under `.ux/`.
+- The spec's `**Brief:**` header carries the **resolved** path, not `.ux/briefs/…`.
+- The relative cross-link `../briefs/retry-wrapper.md` still resolves from the spec's location.
+
+**Fails if** anything lands in `.ux/` — a `.ux/specs/` directory appearing at all is the
+signature failure of the logical-root design and fails this scenario on its own. Also fails if
+the root is never stated, if the brief is reported missing, or if `.ux/briefs/…` is written
+into the spec header.
+
+**Also run, as the regression that matters most:** the same input with **no** `.ux/config.md`
+at all. Everything must behave exactly as it did before this feature existed — brief read from
+`.ux/briefs/`, spec written to `.ux/specs/`, and no mention of roots or configuration to a user
+who never asked for any. Every existing user is in this state.
+
+---
+
+## 13. Publishing, and the page someone else edited
+
+**State:** `.ux/config.md` names a Confluence space. `docs/ux/specs/retry-wrapper.md` has a
+`## Published` block recording page 12345, last published three weeks ago. That page has since
+been edited in Confluence. `docs/ux/prototypes/retry-wrapper.html` also exists. The spec quotes
+a named customer.
+
+**Input:** "Publish the retry-wrapper docs to Confluence."
+
+**Expect**
+
+- Router goes to `ux-publish`. A dry run is printed **before any Confluence write**, listing
+  each artefact as CREATE / UPDATE / SKIP / FLAG.
+- The spec is **FLAGGED**, not updated: the remote page changed after we last published, and
+  overwriting would discard someone's edit. It asks before proceeding.
+- The prototype is excluded, with the reason — an interactive HTML file is not a page.
+- The named customer is flagged and anonymisation offered for the published copy, per Theme M.
+  The repo copy is untouched.
+- On approval, the `## Published` table is updated — and the spec's `**Date:**` and
+  `**Status:**` are **not** touched, since publishing is not an edit to the document.
+- Nothing is read back from Confluence into the repo.
+
+**Fails if** any page is created or updated before explicit approval, if the diverged page is
+overwritten silently, if the prototype is flattened into a page, if the spec's `Date` changes,
+or if the skill claims success when no Confluence tool was available rather than stopping and
+saying so.
 
 ---
 
