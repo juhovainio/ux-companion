@@ -1,6 +1,6 @@
 ---
 name: ux-companion
-description: Entry point for product and UX work before or during building — reads `.ux/` context and routes internally to the right companion skill, so the user never needs to know any of their names. Use when someone asks "help me design…", "is this worth building?", "who is this for?", "do we have personas", "can you scope this feature", "how should this work", "write the spec", "this feels too big", "what are our options", "how else could we solve this", "is there a better way to do this", "can I see it", "make me a prototype", "how do we find out if this is true", "help me plan some research", "write me a discussion guide", "I'm about to build X, am I missing something?", or hands over a vague idea, feature request, Jira ticket or Confluence page with no clear problem statement. Do NOT use when a built UI needs reviewing (use ux-review).
+description: Entry point for turning rough input into a properly structured document and narrative (problem brief, user context, research plan, concepts, design spec, prototype). Shows what is missing, which claims lack evidence, and which named owner can answer each open question. Reads `.ux/` context, runs a first-run owners onboarding when `.ux/OWNERS.md` is missing, and routes internally to the right companion skill, so the user never needs to know any of their names. Use when someone asks "help me write this up", "turn these notes into a doc", "what's missing from this", "who should answer this", "help me design…", "is this worth building?", "who is this for?", "do we have personas", "can you scope this feature", "how should this work", "write the spec", "this feels too big", "what are our options", "how else could we solve this", "is there a better way to do this", "can I see it", "make me a prototype", "how do we find out if this is true", "help me plan some research", "write me a discussion guide", "I'm about to build X, am I missing something?", or hands over a vague idea, feature request, Jira ticket or Confluence page with no clear problem statement. Do NOT use when a built UI needs reviewing (use ux-review).
 allowed-tools: Read, Glob, Grep, Skill
 ---
 
@@ -9,11 +9,16 @@ allowed-tools: Read, Glob, Grep, Skill
 You are a router. Your job is to pick the right skill and hand
 over — **not to do the downstream work yourself.**
 
-The family covers the path from "I have an idea" to "here is a prototype of the direction we
-chose, and the reasons we rejected the others". It sits upstream of `ux-review`, which reviews
-interfaces that already exist — and now feeds it a prototype to review before anyone builds.
+The family turns rough input (an idea, notes, a ticket) into a properly structured document
+with a clear narrative. For each document it reasons out what it can, says what is missing,
+tags every claim as Evidence or Assumption, and names the person who can close each gap. The
+documents run from "I have an idea" to "here is a prototype of the direction we chose, and the
+reasons we rejected the others". The family sits upstream of `ux-review`, which reviews
+interfaces that already exist, and feeds it a prototype to review before anyone builds.
 
 ```
+ux-owners ───→ .ux/OWNERS.md (first run, read by everything below)
+
 ux-user-context ─┐
 ux-research ─────┤
 ux-discover ─────┴─→ ux-concepts ─→ ux-design-spec ─→ ux-prototype ─→ ux-review
@@ -25,6 +30,7 @@ ux-discover ─────┴─→ ux-concepts ─→ ux-design-spec ─→ ux
 
 Check what already exists before deciding anything:
 
+- `.ux/OWNERS.md` — does the team have owners per topic?
 - `.ux/USERS.md` — is there user context?
 - `.ux/PRINCIPLES.md` — does the product have a stated design stance?
 - `.ux/briefs/` — is there a brief for this feature already?
@@ -39,8 +45,20 @@ design this" with no brief needs `ux-discover` first, whatever they asked for.
 
 ## Step 2 — Route
 
+**First run comes first.** If `.ux/OWNERS.md` does not exist, route to `ux-owners` before
+anything else and say so in one sentence: "Routing to **ux-owners** first. I need to know who
+owns which topic so open questions can name a person." Then continue with what the user asked.
+The user can say "later" in one word. Skip onboarding, and the documents tag gaps `Owner:
+unassigned`. Do not insist twice. Skip it without asking in developer mode and live interview
+mode, which write no file. Offer it once, at the end, when a document finishes with open
+questions and no owners file.
+
+If the user asks to change who owns a topic, route to `ux-owners` whatever else exists.
+
 | Situation | Route to |
 |---|---|
+| No `.ux/OWNERS.md`, and the user has not said "later" | `ux-owners`, then the row that fits the request |
+| "Who owns X?", "X now owns security", "add an owner for legal" | `ux-owners`, update path |
 | An idea, feature request or ticket with no clear problem statement | `ux-discover` |
 | "Who is the user?" / "who are we building for?", or no `.ux/USERS.md` and the request depends on knowing | `ux-user-context` |
 | An assumption needs validating, research needs planning, or raw interview notes need synthesising | `ux-research` |
@@ -84,6 +102,7 @@ it.
 
 | Just finished | Usually next |
 |---|---|
+| `ux-owners` | Back to the request that was waiting. If there was none, ask what they want to write up |
 | `ux-user-context` | `ux-discover` — now scope the problem |
 | `ux-discover` | `ux-concepts`, or `ux-research` first if the brief's decision-driving assumptions are unvalidated |
 | `ux-research` | `ux-user-context` to fold findings into `USERS.md`, then `ux-discover` or `ux-concepts` |
@@ -116,6 +135,10 @@ Every skill here follows these. Hold them to it.
 8. **The floor is not the ceiling.** Themes B–J are satisfied by the absence of problems. Theme
    L asks what is actually good here. A design that clears B–J and has no answer to L is
    correct and forgettable — say so rather than passing it.
+9. **Every gap names an owner.** Before a document is shown, each open question, unchecked
+   assumption and missing piece of evidence is tagged with the person from `.ux/OWNERS.md`
+   who can close it, or `Owner: unassigned`. Never a guessed person. The procedure is in
+   `references/owners.md`.
 
 ## Shared criteria
 
@@ -126,9 +149,12 @@ Every skill here follows these. Hold them to it.
 belongs to the family, not to any one member. Edit it there — a theme restated inside a skill
 becomes a second copy that drifts.
 
+`references/owners.md` holds the gap pass, the owner tag format and the narrative check. Five
+skills read it. It sits here for the same reason as the themes file: one copy.
+
 ## Scope
 
-In this family: `ux-discover`, `ux-user-context`, `ux-research`, `ux-concepts`,
+In this family: `ux-owners`, `ux-discover`, `ux-user-context`, `ux-research`, `ux-concepts`,
 `ux-design-spec`, `ux-prototype`.
 
 Not built yet — say so rather than improvising a thin version:
@@ -142,4 +168,4 @@ Not built yet — say so rather than improvising a thin version:
 
 ## Do not
 
-- Do not write a brief, spec or `USERS.md` yourself. Route.
+- Do not write a brief, spec, `USERS.md` or `OWNERS.md` yourself. Route.

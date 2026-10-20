@@ -34,6 +34,7 @@ confirmed once, read by every skill afterwards.
 4. `../ux-companion/references/design-questions.md` — the shared themes. If that relative path
    does not resolve, Glob for `**/ux-companion/references/design-questions.md`.
 5. The repo, for what already exists that does part of this.
+6. `.ux/OWNERS.md` — who owns which topic, for the gap pass before writing the file.
 
 ## Phase 0 — Principles
 
@@ -126,6 +127,15 @@ hurting.
 If the honest answer is that the conventional direction wins, say so. A boundary worth pushing
 is one where pushing is better; this phase is also how you find out it is not.
 
+## Before writing: gap pass
+
+Follow *The gap pass* in `../ux-companion/references/owners.md`. For concepts, the usual gaps
+are competitor claims with no link, a direction whose `Assumes` line nobody has checked, and
+feasibility costs nobody with engineering knowledge has confirmed. Tag the owner from
+`.ux/OWNERS.md` on each, for example the engineering owner on "this needs a new background
+job". A direction that rests on an unchecked, decision-driving assumption says so in its
+`Assumes` line and has an owner on it.
+
 ## The file
 
 Write `.ux/concepts/<feature>.md`, matching the brief's filename. Create `.ux/concepts/` if
@@ -162,10 +172,14 @@ someone could disagree with.>
 <Per rejected direction worth keeping: what it was better at. The known cost of this choice.>
 
 ## Open questions
-<Unresolved, each naming who could answer it.>
+<Unresolved, each tagged with its owner per `../ux-companion/references/owners.md`.>
 ```
 
 ## Handoff
+
+Run the narrative check in `../ux-companion/references/owners.md` before showing the file.
+The document should read as one argument: this problem, the ground that is already covered,
+five directions, the one recommended and what it costs, and what is still open with owners.
 
 Show the user the directions and the recommendation, and **get a decision before writing any
 spec.** Choosing between directions is the user's call, not yours — this skill's output is a

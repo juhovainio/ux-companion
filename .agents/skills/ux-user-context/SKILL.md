@@ -28,7 +28,7 @@ never overwrite.** Preserve what is there, mark what changed, and keep the date 
 change.
 
 Before either path, gather what the repo already knows: `.ux/USERS.md`, `.ux/briefs/`,
-`.ux/research/`, the README, any docs directory, and — if the product is a CLI or an API —
+`.ux/research/`, `.ux/OWNERS.md`, the README, any docs directory, and — if the product is a CLI or an API —
 its help text and reference docs, which usually state who it is for. Tell the user in one line
 what you found and start from there rather than from zero.
 
@@ -120,8 +120,9 @@ because every downstream spec inherits the invention.
 <People who inherit, approve or support the output without being primary users.>
 
 ## What we do not know
-<Each open question, and who or what could answer it. This section is a feature. Do not leave
-it empty to make the document look finished.>
+<Each open question, tagged with its owner per `../ux-companion/references/owners.md`, or the
+source that could answer it. This section is a feature. Do not leave it empty to make the
+document look finished.>
 
 ## Changelog
 - <YYYY-MM-DD> — <what changed and what prompted it>
@@ -139,6 +140,15 @@ one.
 Personas or jobs-to-be-done is the caller's choice; default to **jobs-to-be-done** phrasing
 ("first-time installer", "release engineer verifying a build") because it stays accurate when
 the same person wears two hats.
+
+## Before writing: gap pass
+
+Follow *The gap pass* in `../ux-companion/references/owners.md`. For `USERS.md`, the usual
+gaps are user sections that are all assumption, a skill level nobody measured, and an agent
+consumer nobody has confirmed exists. Tag the owner from `.ux/OWNERS.md` on each line of
+`What we do not know`, typically the users and research owner. Run the narrative check from
+the same file: someone reading the file cold should come away knowing who the users are, how
+sure we are, and who to ask about the rest.
 
 ## Expanding an existing file
 

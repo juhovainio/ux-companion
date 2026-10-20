@@ -28,7 +28,7 @@ is. Do not produce a hollow version.
 
 ## Before starting
 
-Read `.ux/USERS.md`, `.ux/briefs/`, and `.ux/research/`. Research that re-asks a question the
+Read `.ux/USERS.md`, `.ux/briefs/`, `.ux/research/` and `.ux/OWNERS.md`. Research that re-asks a question the
 repo already answers wastes the scarcest resource here, which is a real user's half hour.
 
 If a brief exists, start from its **assumptions that drive decisions** — those are, by
@@ -69,6 +69,13 @@ Pick the lightest method that can answer the question:
 | How often / how many? | Not interviews — usage data, support tickets, logs |
 
 Five interviews that change a decision beat twenty that confirm what everyone already thought.
+
+Before writing, follow *The gap pass* in `../ux-companion/references/owners.md`. For a plan,
+the usual gaps are a decision with no named decider, participants nobody has promised to
+introduce, and data that already exists but nobody has pulled. Tag the owner from
+`.ux/OWNERS.md` on each: the research owner for recruitment, the data owner for existing
+numbers, the product owner for who decides. Run the narrative check from the same file before
+showing the plan.
 
 Write to `.ux/research/<topic>.md`:
 
@@ -157,7 +164,8 @@ insights.
 not the participants'.>
 
 ## Still unknown
-<What this did not answer, and whether it needs another round.>
+<What this did not answer, and whether it needs another round. Each item tagged with its
+owner per `../ux-companion/references/owners.md`.>
 ```
 
 Then offer the follow-ups rather than doing them unasked: fold user findings into

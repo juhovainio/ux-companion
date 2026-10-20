@@ -1,6 +1,6 @@
 # Golden scenarios
 
-Seven scenarios, run by hand. No eval harness for a POC — add one when running these manually
+Nine scenarios, run by hand. No eval harness for a POC — add one when running these manually
 starts hurting.
 
 Run each in a scratch directory so `.ux/` starts in a known state. Record pass/fail and what
@@ -17,6 +17,9 @@ Every scenario fails if any of these is violated, regardless of its own criteria
 - **Nothing asked that could be reasoned.** A question the request, the repo or `.ux/` already
   answers is a failure even if the answer it gets is correct.
 - **No questionnaires.** The questions that survive reasoning are asked one at a time.
+- **No guessed owner.** Every person tagged in a document comes from `.ux/OWNERS.md`. With no
+  match, the tag is `Owner: unassigned`. A name taken from a git log, a ticket or a job title
+  is a failure.
 
 ---
 
@@ -167,6 +170,55 @@ hands a direction to `ux-design-spec` without the user agreeing to it.
 **Fails if** only the happy path is built, the error state takes four correct steps to reach,
 copy is invented without being flagged, it pulls in a library, it uses real user data, or it
 asks "what do you think?" instead of giving the user a task to run.
+
+---
+
+## 8. First run, owners onboarding
+
+**State:** empty `.ux/`. A `CODEOWNERS` file naming two people. The Atlassian site has two
+accounts called "Alex Smith".
+**Input:** "Help me write up a brief for a retry button on failed jobs."
+
+**Expect**
+
+- Router picks `ux-owners` before `ux-discover` and says why in one sentence.
+- The repo is read first. The `CODEOWNERS` names are offered as unconfirmed starting points,
+  not written as owners.
+- A starting topic list is proposed once, and the user can rename, add or drop topics.
+- Owners are asked for one topic at a time, and "nobody yet" is accepted as `Unassigned`.
+- For the ambiguous name, both accounts are shown and the user picks. Nothing is chosen for
+  them.
+- `.ux/OWNERS.md` is written in the table format, shown back, and confirmed.
+- Control then returns to the brief that was originally asked for.
+
+**Fails if** it asks all topics in one message, picks one of the two Alex Smiths, writes a
+`CODEOWNERS` name without asking, invents an account ID, or forgets the original request after
+onboarding.
+
+---
+
+## 9. Gaps get owners
+
+**State:** `.ux/OWNERS.md` with five topics. Data and metrics is owned by Jane Doe with an
+Atlassian ID. Security and legal is `Unassigned`.
+**Input:** "Turn these notes into a brief: users keep re-running jobs by hand, it takes
+forever, and I think it might need an audit entry."
+
+**Expect**
+
+- Router goes straight to `ux-discover`. It does not run onboarding again.
+- The gap pass runs: success criteria are missing, "takes forever" has no number, the audit
+  entry is an unchecked assumption.
+- The missing number goes to `Open questions` tagged with Jane Doe as a link built from her ID
+  in `OWNERS.md`.
+- The audit question carries `Owner: unassigned (Security and legal)`.
+- A gap that no topic covers is listed with a note to add a topic.
+- The user is asked only what nobody else could answer.
+- The brief reads top to bottom as one argument and ends with what is open and who to ask.
+
+**Fails if** a person is tagged who is not in `OWNERS.md`, the audit question is given to Jane
+by guess, an `Owner:` field is missing from an open question, the brief has a separate owners
+section instead of tags in place, or the user is asked for the latency number.
 
 ---
 

@@ -1,14 +1,19 @@
 # UX Companion Cube
 
-A skill family for the part of product work that happens **before anything is built**: finding
-the real problem, knowing who it is for, and writing a design spec you can defend.
+A skill family that turns rough input into a properly structured document with a clear
+narrative. You bring an idea, a pile of notes or a ticket. It builds the document, says what is
+missing, marks which claims have no evidence yet, and names the person who can answer each open
+question.
 
-It sits upstream of the existing `ux-review` heuristic family, which evaluates interfaces that
-already exist.
+The documents cover the work that happens **before anything is built**: the problem brief,
+user context, research plan, solution directions, design spec and prototype. The family sits
+upstream of the existing `ux-review` heuristic family, which evaluates interfaces that already
+exist.
 
 ```
 ux-companion (router)
       │
+      ├─ ux-owners         who answers what?        → .ux/OWNERS.md   (first run)
       ├─ ux-user-context   who is this for?         → .ux/USERS.md
       ├─ ux-research       is this assumption true?  → .ux/research/<topic>.md
       ├─ ux-discover       what is the problem?      → .ux/briefs/<feature>.md
@@ -26,7 +31,7 @@ specification of the first idea anyone said.
 
 ## Why
 
-Four failure modes this is built to prevent:
+Five failure modes this is built to prevent:
 
 - **Building the wrong thing well.** Nobody wrote down who the user is or what problem this
   solves, so the team optimises a solution to a problem that was never stated.
@@ -36,8 +41,10 @@ Four failure modes this is built to prevent:
   direction was chosen by whoever spoke first rather than by anyone deciding.
 - **Shipping the unobjectionable.** Every heuristic passes, nothing is wrong with it, and
   nobody mentions it to a colleague.
+- **Open questions nobody owns.** The document ends with "TBD" and "needs input", and three
+  weeks later no one remembers who was supposed to answer.
 
-Against all four, the family holds seven lines:
+Against all five, the family holds eight lines:
 
 1. **Evidence or Assumption, never neither.** Every claim is tagged. Assumptions that drive
    decisions are flagged. A thin-but-honest brief tells the team to go get evidence; a brief
@@ -60,6 +67,9 @@ Against all four, the family holds seven lines:
 7. **The floor is not the ceiling.** Themes B–J are satisfied by the absence of problems.
    Theme L asks what is actually good here — the one moment someone would screenshot, and the
    honest answer when there isn't one.
+8. **Every gap names an owner.** Each open question, unchecked assumption and missing piece of
+   evidence is tagged with the person in charge of that topic, taken from `.ux/OWNERS.md`. With
+   no match, the tag says `Owner: unassigned`. It never guesses a person.
 
 ## Install
 
@@ -84,10 +94,34 @@ dispatch targets, so you never need to know their names:
 
 > "Help me design a way to re-run a failed job."
 
-Where that lands:
+### First run: who owns what
+
+The first time you use it in a repo, it asks who is in charge of each topic before it writes
+anything. It reads `CODEOWNERS` and your existing docs first, proposes seven topics (product,
+users and research, design, engineering feasibility, data and metrics, security and legal,
+support), then asks one topic at a time. Each name is looked up in Atlassian, and if two
+accounts match, you pick. "Nobody yet" is a fine answer.
+
+The result is `.ux/OWNERS.md`. From then on, every document it writes tags the right person on
+each open question:
+
+```markdown
+## Open questions
+- What is the install failure rate on fresh machines? Needs a number from the last 30 days.
+  [@Jane Doe](https://acme.atlassian.net/jira/people/5b10ac8d82e05b22cc7d4ef5)
+- Does the retry change the audit trail? Owner: unassigned (Security and legal)
+```
+
+Say "later" to skip it. Documents then tag gaps `Owner: unassigned`. Say "Sam now owns
+security" at any time to update a row. The tags are plain markdown links with the Atlassian
+account ID in the URL, so they carry over when you paste the document into Jira or Confluence.
+Nothing is posted or sent. The Atlassian lookup is read-only.
+
+### Where requests land
 
 | You have | Routes to |
 |---|---|
+| No owners file yet | `ux-owners`, then whatever you asked for |
 | A vague idea or a feature request | `ux-discover` |
 | No idea who the users are | `ux-user-context` |
 | An assumption that needs testing, or raw interview notes | `ux-research` |
@@ -101,6 +135,7 @@ Where that lands:
 
 ```
 .ux/
+  OWNERS.md               # who is in charge of each topic, with Atlassian account IDs
   USERS.md                # personas / JTBD, context of use, skill level
   PRINCIPLES.md           # the product's design stance, as trade-offs
   surface-map.md          # product areas, navigation, patterns, vocabulary
@@ -131,9 +166,10 @@ waiting on.
 .agents/skills/<skill>/SKILL.md   the skills — one self-contained file each
 .agents/skills/ux-companion/
   references/design-questions.md  Themes A–L — the shared criteria, read by four skills
+  references/owners.md            gap pass, owner tag format, narrative check, read by five skills
 plans/poc-plan.md                 decisions, contracts, build order, deferred work
 plans/reconciliation.md           comparison with the parallel jussi-exploration branch
-evals/golden-scenarios.md         seven scenarios, run by hand
+evals/golden-scenarios.md         nine scenarios, run by hand
 evals/check_skills.py             frontmatter validation — run after editing any skill
 ```
 

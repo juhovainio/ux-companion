@@ -28,6 +28,7 @@ Read what already exists, so you never ask for something the repo already states
 4. `../ux-companion/references/design-questions.md` — the shared themes. If that relative path
    does not resolve, Glob for `**/ux-companion/references/design-questions.md`.
 5. If the user named a Jira ticket or Confluence page, read it
+6. `.ux/OWNERS.md` — who owns which topic, for the gap pass below
 
 Say what you found in one line: "Read `USERS.md` — I have your three personas, so I'll skip
 the who-is-this-for questions." If `.ux/` does not exist, say nothing and carry on.
@@ -114,6 +115,14 @@ the brief — be strict about it, including when it makes the brief look thin. A
 honestly thin tells the team to go get evidence. A brief padded with confident-sounding
 assumptions tells them to go build.
 
+## Before writing: gap pass
+
+Follow *The gap pass* in `../ux-companion/references/owners.md`. For a brief, the usual gaps
+are success criteria nobody has defined, a cost of the status quo with no number, and
+decision-driving assumptions with no source. The user answers what only they know. The rest
+becomes an `Open questions` line tagged with the owner from `.ux/OWNERS.md`, for example the
+data owner for a baseline metric or the research owner for "do users actually do this".
+
 ## Writing the brief
 
 Filename: `.ux/briefs/<feature>.md`, kebab-case, named for the problem rather than the
@@ -154,11 +163,15 @@ does. Note how each could be tested.>
 endorsed here. The design direction is ux-design-spec's job.>
 
 ## Open questions
-<Unresolved. Each one names who could answer it.>
+<Unresolved. Each one is tagged with its owner, per `../ux-companion/references/owners.md`.>
 ```
 
 Leave a section out rather than filling it with filler. An empty `Evidence` section with one
 honest `**Assumption:**` line is a better brief than six invented bullets.
+
+Before showing it, run the narrative check in `../ux-companion/references/owners.md`. The
+brief should read as one argument: this problem, for these people, shown by this evidence,
+with these things still open and these people to ask.
 
 After writing, show the user the problem statement and the assumptions that drive decisions,
 and tell them the next step: `ux-concepts` to explore how this could be solved before anyone

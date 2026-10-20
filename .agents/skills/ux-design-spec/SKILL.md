@@ -26,6 +26,7 @@ Read all of these before starting:
 5. `.ux/surface-map.md` — where the feature will live. If missing, see *No surface map* below.
 6. The repo itself, for existing patterns, terms and components the design should reuse.
 7. `../ux-companion/references/design-questions.md` — the shared themes, used in Phase 3.
+8. `.ux/OWNERS.md` — who owns which topic, for the gap pass after Phase 3.
 
 **No concepts.** The spec then specifies whichever solution happened to be mentioned first,
 which is a choice nobody made deliberately. Offer `ux-concepts` — it is cheap, it ends with one
@@ -182,7 +183,7 @@ justify, name it as a separate idea instead.>
 - **Assumption:** <claim> ⚠️ drives a decision — <what changes if this is wrong>
 
 ## Open questions
-<Unresolved, each naming who could answer it.>
+<Unresolved, each tagged with its owner per `../ux-companion/references/owners.md`.>
 ```
 
 **Record decisions, do not invent them.** Nothing enters the spec as a decision unless the
@@ -224,6 +225,18 @@ rather than leaving a list of complaints attached to an unchanged document.
 
 If the check finds nothing, say so plainly and name the two or three themes you examined most
 closely — that is more useful than a silent pass.
+
+## Gap pass and narrative
+
+After the fixes are applied, follow *The gap pass* in `../ux-companion/references/owners.md`.
+For a spec, the usual gaps are states nobody specified, copy that is a proposal, security or
+permission questions the flow raises, and assumptions about system behaviour that only
+engineering can confirm. Tag the owner from `.ux/OWNERS.md` on each in `Open questions` or
+`Assumptions`.
+
+Then run the narrative check from the same file. The spec should read as one argument: this
+problem, the smallest version that solves it, how it works, and what is still open with names
+on it.
 
 ## Developer mode
 
