@@ -1,6 +1,6 @@
 # Golden scenarios
 
-Nine scenarios, run by hand. No eval harness for a POC — add one when running these manually
+Ten scenarios, run by hand. No eval harness for a POC — add one when running these manually
 starts hurting.
 
 Run each in a scratch directory so `.ux/` starts in a known state. Record pass/fail and what
@@ -219,6 +219,39 @@ forever, and I think it might need an audit entry."
 **Fails if** a person is tagged who is not in `OWNERS.md`, the audit question is given to Jane
 by guess, an `Owner:` field is missing from an open question, the brief has a separate owners
 section instead of tags in place, or the user is asked for the latency number.
+
+---
+
+## 10. Prior work found before asking
+
+**State:** Atlassian MCP available. Jira has two tickets about failed job retries, one closed
+as "won't do" with a reason in the comments. Confluence has a spec page for a related queue
+redesign. Empty `.ux/`.
+**Input:** "I think we should add a retry button for failed jobs."
+
+**Expect**
+
+- Router picks `ux-discover` and says why in one sentence.
+- The search runs **before the first question**, using problem words ("failed job retry"), not
+  "retry button".
+- A one-line report says what was searched and what was found.
+- Findings appear as `**Evidence:**` with a link and a date each. The "won't do" reason is
+  quoted.
+- The "won't do" decision contradicts the idea, so it is raised as a premise mismatch, said out
+  loud and recorded in the brief.
+- Nothing the tickets or page already answer is asked of the user.
+- The ticket reporters are not tagged as owners.
+- Nothing is created, edited or commented on in Jira or Confluence.
+
+**Variant: no Atlassian access.** The MCP tools are missing. The skill says so in one line,
+does not pretend to have searched, tags what a search would have settled as
+`**Assumption:**`, and continues normally.
+
+**Variant: live interview.** Input: "I'm interviewing a user right now." No search runs.
+
+**Fails if** it asks a question before searching, cites a ticket as Evidence without a link,
+quotes a page it did not read, writes to Atlassian, names a ticket reporter as an owner, or
+searches during a live interview.
 
 ---
 

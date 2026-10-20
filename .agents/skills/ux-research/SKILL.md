@@ -28,15 +28,24 @@ is. Do not produce a hollow version.
 
 ## Before starting
 
-Read `.ux/USERS.md`, `.ux/briefs/`, `.ux/research/` and `.ux/OWNERS.md`. Research that re-asks a question the
-repo already answers wastes the scarcest resource here, which is a real user's half hour.
+Read `.ux/USERS.md`, `.ux/briefs/`, `.ux/research/` and `.ux/OWNERS.md`. Research that re-asks
+a question the repo already answers wastes the scarcest resource here, which is a real user's
+half hour.
+
+Then search Jira and Confluence for earlier research, interview notes, related tickets and
+past decisions on the topic, following `../ux-companion/references/atlassian-search.md`. Do
+it before asking the first question and report it in one line. A Confluence page that already
+answers the question is a reason not to run a study, and a ticket thread full of user reports
+is evidence a plan can start from. In synthesis mode the notes are the input, so search only
+when the user asks for related prior insights.
 
 If a brief exists, start from its **assumptions that drive decisions** — those are, by
 construction, the things most worth validating.
 
-**Desk research before field research.** Where a published finding would already settle the
-question — an established usability result, a study on the same interaction — search for it
-first, per *Grounding in research* in `../ux-companion/references/design-questions.md`. If the
+**Desk research before field research.** Sources run from near to far: this team's own
+Confluence pages and Jira tickets first, then published work. Where a finding would already
+settle the question, an established usability result or a study on the same interaction,
+search for it first, per *Grounding in research* in `../ux-companion/references/design-questions.md`. If the
 literature answers it, say so and do not run the study; spend the sessions on the part that is
 specific to these users, which is the part nobody else can have answered. A general finding
 never overrides what this team knows about *their* users — where they diverge, that divergence
@@ -179,4 +188,8 @@ are now backed by evidence.
 - Do not report "5 of 8 participants" unless there were eight participants.
 - Do not present a one-participant finding as a theme.
 - Do not run research on a decision that is already made.
+- Do not run a study whose question a Confluence page or Jira ticket already answers. Say what
+  you found and let the user decide whether it is enough.
+- Do not cite a ticket or page as Evidence without its link, and do not quote from one you
+  did not read.
 - Do not write personas here.

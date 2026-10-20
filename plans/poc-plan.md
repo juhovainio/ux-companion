@@ -30,6 +30,7 @@ they fix. The five-skill POC shape is what the Decisions table and Build order d
 | 5 | `USERS.md` location | Per repo, at `.ux/USERS.md` | Zero config. Duplication across repos of one product is accepted for the POC. |
 | 6 | Jira handoff | Hand off to `/to-spec` and `/to-tickets` | No Jira write path to build, and nothing can write junk to a live project on stage. |
 | 7 | Owners | `ux-owners` onboarding writes `.ux/OWNERS.md`. Names are resolved with a read-only Atlassian lookup. Documents tag owners as markdown links built from the account ID. | Open questions need a person, not "someone". Lookup is read-only, so the Jira and Confluence write paths in Decisions 3 and 6 stay deferred. Tags are text in the document and message nobody. |
+| 8 | Prior work | `ux-discover` and `ux-research` search Jira and Confluence at the start, through the Atlassian MCP, read-only. Hits are cited as Evidence with links. | Related tickets and earlier pages are the cheapest evidence there is, and they answer questions the user would otherwise be asked. Search stays read-only, so the write paths in Decisions 3 and 6 stay deferred. |
 
 ### Drift noted in the source doc
 

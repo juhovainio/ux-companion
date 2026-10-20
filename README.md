@@ -117,6 +117,14 @@ security" at any time to update a row. The tags are plain markdown links with th
 account ID in the URL, so they carry over when you paste the document into Jira or Confluence.
 Nothing is posted or sent. The Atlassian lookup is read-only.
 
+### It searches Jira and Confluence first
+
+When you ask it to write a brief or plan research, it searches Jira and Confluence through
+the Atlassian MCP before it asks you anything. It looks for related tickets, earlier specs,
+research notes and past decisions, tells you in one line what it found, and cites each hit as
+Evidence with a link. Search is read-only. It never creates or edits anything, and it skips
+the step in a live interview. Without Atlassian access it says so and carries on.
+
 ### Where requests land
 
 | You have | Routes to |
@@ -167,9 +175,10 @@ waiting on.
 .agents/skills/ux-companion/
   references/design-questions.md  Themes A–L — the shared criteria, read by four skills
   references/owners.md            gap pass, owner tag format, narrative check, read by five skills
+  references/atlassian-search.md  read-only Jira and Confluence search, read by two skills
 plans/poc-plan.md                 decisions, contracts, build order, deferred work
 plans/reconciliation.md           comparison with the parallel jussi-exploration branch
-evals/golden-scenarios.md         nine scenarios, run by hand
+evals/golden-scenarios.md         ten scenarios, run by hand
 evals/check_skills.py             frontmatter validation — run after editing any skill
 ```
 

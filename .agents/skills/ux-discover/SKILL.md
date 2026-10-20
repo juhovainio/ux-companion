@@ -27,7 +27,10 @@ Read what already exists, so you never ask for something the repo already states
 3. `.ux/briefs/` — existing briefs, in case this overlaps one
 4. `../ux-companion/references/design-questions.md` — the shared themes. If that relative path
    does not resolve, Glob for `**/ux-companion/references/design-questions.md`.
-5. If the user named a Jira ticket or Confluence page, read it
+5. If the user named a Jira ticket or Confluence page, read it. In every mode except live
+   interview, also search Jira and Confluence for related tickets and pages, following
+   `../ux-companion/references/atlassian-search.md`. Do it now, before the first question,
+   and report it in one line.
 6. `.ux/OWNERS.md` — who owns which topic, for the gap pass below
 
 Say what you found in one line: "Read `USERS.md` — I have your three personas, so I'll skip
@@ -52,9 +55,11 @@ for each area below, work down this order and stop at the first step that settle
 
 1. **Reason it out** from the request, the repo, and `.ux/`. Most areas are answerable this
    way; the user already told you more than they think they did.
-2. **Research it**, where a published finding would sharpen or correct the answer — see
-   *Grounding in research* in `../ux-companion/references/design-questions.md`. Carry the
-   citation into the brief. A finding about users in general never overrides what the user
+2. **Research it.** Start with what the search of Jira and Confluence already found: a
+   related ticket, an earlier spec or a past decision settles many areas, and each one
+   becomes `**Evidence:**` with its link. Then, where a published finding would sharpen or
+   correct the answer, see *Grounding in research* in
+   `../ux-companion/references/design-questions.md`. Carry the citation into the brief. A finding about users in general never overrides what the user
    knows about *their* users; where they diverge, state both.
 3. **Assume it**, plainly, tagged `**Assumption:**`, where no source settles it but the brief
    needs an answer to continue.
@@ -182,7 +187,8 @@ direction they are taking and wants it written up.
 ## Developer mode
 
 No brief, no file. The user is about to build something and wants a sanity check. Reason the
-answers out from the repo; ask at most two questions, and only for what the repo cannot tell
+answers out from the repo and from the Atlassian search above, which is where "what already
+exists that does part of this" often turns up; ask at most two questions, and only for what the repo cannot tell
 you. Then return a short risk list:
 
 - What is the smallest version that solves this?
@@ -219,6 +225,10 @@ After the call, offer to turn the notes into a brief.
 - Do not write a decision the user did not confirm. Unresolved goes to Open questions.
 - Do not invent evidence, personas, metrics, or quotes. Ever.
 - Do not ask about something `.ux/` already answers.
+- Do not skip the Jira and Confluence search when the Atlassian tools are available, and do not
+  run it in live interview mode.
+- Do not cite a ticket or page as Evidence without its link.
+- Do not ask about something a found ticket or page already answers.
 - Do not ask what you could reason out. Reserve the user's attention for what only they know.
 - Do not keep asking once the problem is clear.
 - Do not present research as settled fact about *this* user's users.

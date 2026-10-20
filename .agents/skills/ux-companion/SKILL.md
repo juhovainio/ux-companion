@@ -152,6 +152,9 @@ becomes a second copy that drifts.
 `references/owners.md` holds the gap pass, the owner tag format and the narrative check. Five
 skills read it. It sits here for the same reason as the themes file: one copy.
 
+`references/atlassian-search.md` holds the read-only Jira and Confluence search procedure.
+`ux-discover` and `ux-research` read it and run it before asking questions.
+
 ## Scope
 
 In this family: `ux-owners`, `ux-discover`, `ux-user-context`, `ux-research`, `ux-concepts`,
