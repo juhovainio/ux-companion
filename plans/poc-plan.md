@@ -13,7 +13,7 @@ ux-companion (router)
       ├─ ux-research ──────┤
       ├─ ux-discover ──────┴──→ ux-concepts ──→ ux-design-spec ──→ ux-prototype ──→ ux-review
                                                        │
-                                                       └──→ /to-spec, /to-tickets
+                                                       └──→ to-tickets (optional, own schedule)
 ```
 
 `ux-concepts` and `ux-prototype` are post-POC additions — see *Beyond the POC* below for what
@@ -28,7 +28,7 @@ they fix. The five-skill POC shape is what the Decisions table and Build order d
 | 3 | Output destination | Repo markdown under `.ux/` only | Diffable, no external dependency, and the next skill can read it back. Confluence publishing can be its own skill later. |
 | 4 | Surface map origin | Template, with an agent-assisted first draft the user confirms | No crawling infrastructure; works on CLIs and web apps alike. The user owns the truth. |
 | 5 | `USERS.md` location | Per repo, at `.ux/USERS.md` | Zero config. Duplication across repos of one product is accepted for the POC. |
-| 6 | Jira handoff | Hand off to `/to-spec` and `/to-tickets` | No Jira write path to build, and nothing can write junk to a live project on stage. |
+| 6 | Jira handoff | ~~Hand off to `/to-spec` and `/to-tickets`~~ Superseded — `to-tickets` now writes real Jira tickets behind a mandatory dry-run confirmation gate | Originally deferred so nothing could write junk to a live project on stage. Built once the confirmation gate made that risk acceptable; see `to-tickets`'s SKILL.md. |
 
 ### Drift noted in the source doc
 
@@ -181,7 +181,7 @@ Three phases, in order:
    **Out of scope** with the reason it was cut.
 2. **Spec.** Flows, entry points, placement in the existing navigation, states, copy, the
    simplest alternative considered, out of scope, product opportunities (Theme K).
-3. **Pre-build heuristic check.** Themes B–J from
+3. **Pre-build heuristic check.** Themes B–J and M from
    `.agents/skills/ux-companion/references/design-questions.md`, each applied through both the
    Human lens and the Agent lens. Theme A was settled by the brief. Visual criteria —
    affordance rendering, visual hierarchy, loading-state styling — wait for `ux-review` on a
@@ -200,7 +200,9 @@ in its flow, is a section.
 If `.ux/surface-map.md` is missing, offer to draft one from the repo and have the user confirm
 it before using it.
 
-Ends by naming the handoff: `/to-spec` or `/to-tickets`. It does not write to Jira.
+Ends by naming the handoff: `to-tickets`, whenever the user wants to file it — it does not run
+automatically. `ux-design-spec` itself still does not write to Jira; `to-tickets` does, behind
+a confirmation gate.
 
 ## Build order
 
@@ -241,7 +243,7 @@ asked that the request, the repo or `.ux/` already answers.
 | `ux-evidence` | Marked NO in the POC scope column. After the POC lands. |
 | `ux-competitor` as a standing landscape | `ux-concepts` Phase 1 covers the per-decision sweep. Build this when someone needs the market view to persist between decisions. |
 | Confluence publishing | Someone outside a repo needs to read the output. |
-| Direct Jira work-item creation | `/to-spec` and `/to-tickets` prove insufficient. |
+| ~~Direct Jira work-item creation~~ | Done — see `to-tickets`. |
 | Shared product-level `USERS.md` | A second repo in the same product needs the same personas. |
 | Generated or crawled surface map | The hand-written map is measurably the bottleneck. |
 | Eval harness | Golden scenarios get run often enough that by hand hurts. |

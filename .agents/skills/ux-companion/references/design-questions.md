@@ -1,18 +1,23 @@
 # UX Companion — Themes
 
 The shared criteria asset for this skill family. `ux-discover` reasons through Theme A;
-`ux-concepts` works the solution space between A and B; `ux-design-spec` reasons through B–J in
-its pre-build heuristic check, and through K and L in its spec (both need A and B settled, so
-they land there rather than in the brief); `ux-user-context` uses the Human/Agent lens
-distinction.
+`ux-concepts` works the solution space between A and B; `ux-design-spec` reasons through B–J
+and M in its pre-build heuristic check, and through K and L in its spec (all three need A and B
+settled, so they land there rather than in the brief); `ux-user-context` uses the Human/Agent
+lens distinction.
 
-B–J are a **floor**: pass all of them and the result is unobjectionable, which is not the same
-as good. L is the **ceiling**, and it is the one that decides whether anyone remembers this.
+B–J and M are a **floor**: pass all of them and the result is unobjectionable, which is not the
+same as good. L is the **ceiling**, and it is the one that decides whether anyone remembers
+this.
 
-Authored on the `jussi-exploration` branch and vendored here unchanged. Themes A–J generalize
-the `ux-review` / `cli-review` criteria to the pre-build stage; the theme-to-criterion mapping
-is recorded in that branch's `design.md`. Edit this file rather than restating a theme inside
-a skill — a second copy will drift from this one.
+Themes A–J were authored on the `jussi-exploration` branch and vendored here unchanged; they
+generalize the `ux-review` / `cli-review` criteria to the pre-build stage, and the
+theme-to-criterion mapping is recorded in that branch's `design.md`. K is the one generative
+theme, and L (Craft & the signature moment) is the one ceiling theme — both reasoned in the
+spec rather than the heuristic check, since neither is a pass/fail criterion. M (Privacy & data
+handling) was added afterward, reasoned through Human/Agent lenses the same way as B–J. Edit
+this file rather than restating a theme inside a skill — a second copy will drift from this
+one.
 
 ## Contents
 
@@ -30,6 +35,7 @@ a skill — a second copy will drift from this one.
 - J — Empty & edge states
 - K — Product opportunities
 - L — Craft & the signature moment
+- M — Privacy & data handling
 
 ## How to use these themes
 
@@ -223,3 +229,26 @@ existing thing unusually well, never by adding another thing.
 
 Judge this one against the product's own `.ux/PRINCIPLES.md` where it exists. Craft without a
 stance is decoration, and it shows: it reads as effort spent, not as a point being made.
+
+## M — Privacy & data handling
+
+Reasoned in the heuristic check alongside B–J, not treated as a capstone the way K and L are.
+Does this collect, store, or display personal data the person didn't knowingly provide for this
+purpose? Is there a stated reason it's needed, and can the person see, export, or delete what's
+held about them if the product promises that elsewhere? Does moving this data somewhere new —
+a log, a ticket, a third-party API — put it in front of an audience wider than the one it was
+originally shared with?
+
+- **Human lens**: a name, quote, or identifying detail gathered in one context (a support
+  conversation, a user interview) reappearing somewhere with a different, often wider,
+  audience — a public changelog, a shared dashboard, a ticket visible to an entire
+  organization — without the person having agreed to that second audience.
+- **Agent lens**: a tool call forwarding personal or sensitive data to a model, log, or
+  third-party API that wasn't already receiving it, or an agent autonomously moving data
+  between systems with different visibility — the agent has no way to know a boundary was
+  crossed unless the design says so explicitly.
+
+This theme is why `ux-discover` and `ux-research`'s named quotes and `to-tickets`'s ticket
+descriptions need to be read together: evidence gathered under one audience's expectations can
+end up filed somewhere broader by the time it reaches a ticket. `to-tickets` flags this at the
+point it actually happens — see its "Draft the tickets" step.

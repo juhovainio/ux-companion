@@ -17,7 +17,8 @@ ux-companion (router)
       ├─ ux-design-spec    how should it work?       → .ux/specs/<feature>.md
       └─ ux-prototype      can I see it?             → .ux/prototypes/<feature>.html
                                  │
-                                 └─→ ux-review, /to-spec, /to-tickets
+                                 ├─→ ux-review
+                                 └─→ to-tickets (optional, own schedule)
 ```
 
 The shape of the practice, not just the file list: **discover → diverge → converge → make it
@@ -95,6 +96,7 @@ Where that lands:
 | A chosen direction, and you want flows, states and copy | `ux-design-spec` |
 | A spec, and someone who needs to see it to react to it | `ux-prototype` |
 | "I'm about to build X, am I missing something?" | `ux-design-spec` — developer mode, returns a risk list |
+| A finished spec, ready to file as Jira tickets | `to-tickets` |
 | A built UI | `ux-review` — different family |
 
 ## What lands in your repo
@@ -104,9 +106,10 @@ Where that lands:
   USERS.md                # personas / JTBD, context of use, skill level
   PRINCIPLES.md           # the product's design stance, as trade-offs
   surface-map.md          # product areas, navigation, patterns, vocabulary
+  jira-project.md         # the Jira project this repo files tickets to (to-tickets)
   briefs/<feature>.md     # Problem Briefs
   concepts/<feature>.md   # directions explored, one chosen, the rest and what they were better at
-  specs/<feature>.md      # Design specs
+  specs/<feature>.md      # Design specs (gains "## Jira tickets" once filed)
   prototypes/<feature>.*  # one self-contained HTML file, or an exact session transcript
   research/<topic>.md     # research plans, discussion guides, insights
 ```
@@ -121,27 +124,27 @@ as a standing view of the market — `ux-concepts` Phase 1 sweeps prior art for 
 front of you, which is not the same as keeping a landscape current. The skills say so rather
 than improvising a thin version.
 
-Also deliberately absent: Confluence publishing, direct Jira work-item creation, and a
-generated or crawled surface map. See [`plans/poc-plan.md`](plans/poc-plan.md) for what each is
-waiting on.
+Also deliberately absent: Confluence publishing and a generated or crawled surface map. Direct
+Jira ticket creation is handled by `to-tickets`, behind a mandatory dry-run confirmation gate.
+See [`plans/poc-plan.md`](plans/poc-plan.md) for what the remaining gaps are waiting on.
 
 ## Repo
 
 ```
 .agents/skills/<skill>/SKILL.md   the skills — one self-contained file each
 .agents/skills/ux-companion/
-  references/design-questions.md  Themes A–L — the shared criteria, read by four skills
+  references/design-questions.md  Themes A–M — the shared criteria, read by five skills
 plans/poc-plan.md                 decisions, contracts, build order, deferred work
 plans/reconciliation.md           comparison with the parallel jussi-exploration branch
-evals/golden-scenarios.md         seven scenarios, run by hand
+evals/golden-scenarios.md         eight scenarios, run by hand
 evals/check_skills.py             frontmatter validation — run after editing any skill
 ```
 
 Themes A–J generalise the `ux-review` heuristics to the pre-build stage and form a floor: pass
 them all and nothing is wrong with the design. K originates adjacent value; L asks what is
-actually good here, and is the only theme that can fail a design for being merely correct. They
-live in one file because four skills read them — edit there, never restate a theme inside a
-skill.
+actually good here, and is the only theme that can fail a design for being merely correct; M
+(privacy & data handling) was added later, reasoned the same way as B–J. They live in one file
+because five skills read them — edit there, never restate a theme inside a skill.
 
 ```bash
 python3 evals/check_skills.py

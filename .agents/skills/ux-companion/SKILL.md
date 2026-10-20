@@ -18,7 +18,7 @@ ux-user-context ─┐
 ux-research ─────┤
 ux-discover ─────┴─→ ux-concepts ─→ ux-design-spec ─→ ux-prototype ─→ ux-review
                       (diverge)       (converge)       (make it real)
-                                            └─→ /to-spec, /to-tickets
+                                            └─→ to-tickets (optional, own schedule)
 ```
 
 ## Step 1 — Read the context
@@ -51,6 +51,7 @@ design this" with no brief needs `ux-discover` first, whatever they asked for.
 | "I'm about to build X, am I missing something?" | `ux-design-spec`, developer mode — a risk list, not a spec |
 | "This feels too big" / "are we overengineering this?" | `ux-design-spec` — the overengineering gate is its first phase |
 | The user is in a live user interview right now | `ux-discover`, live interview mode |
+| A spec exists and the user wants it filed as Jira tickets | `to-tickets` |
 | A UI already exists and needs evaluating | Out of this family — point at `ux-review` and stop |
 
 **The tiebreak.** "Design this" with a brief and no concepts is the ambiguous case, and it is
@@ -88,7 +89,7 @@ it.
 | `ux-discover` | `ux-concepts`, or `ux-research` first if the brief's decision-driving assumptions are unvalidated |
 | `ux-research` | `ux-user-context` to fold findings into `USERS.md`, then `ux-discover` or `ux-concepts` |
 | `ux-concepts` | `ux-design-spec` on the chosen direction — once the user has chosen it |
-| `ux-design-spec` | `ux-prototype` to make it touchable, then `/to-spec` or `/to-tickets` |
+| `ux-design-spec` | `ux-prototype` to make it touchable, and `to-tickets` to file it in Jira — independent next steps, each on its own schedule |
 | `ux-prototype` | `ux-review` on the prototype, then back to `ux-design-spec` with what it revealed |
 
 ## Family conventions
@@ -121,7 +122,7 @@ Every skill here follows these. Hold them to it.
 
 `references/design-questions.md` holds Themes A–L, the family's single criteria asset.
 `ux-discover` reasons through Theme A, `ux-concepts` works the solution space between A and B,
-`ux-design-spec` reasons through B–J in its heuristic check and K and L in its spec,
+`ux-design-spec` reasons through B–J and M in its heuristic check and K and L in its spec,
 `ux-user-context` uses the Human/Agent lens distinction. It lives under this skill because it
 belongs to the family, not to any one member. Edit it there — a theme restated inside a skill
 becomes a second copy that drifts.
@@ -129,7 +130,8 @@ becomes a second copy that drifts.
 ## Scope
 
 In this family: `ux-discover`, `ux-user-context`, `ux-research`, `ux-concepts`,
-`ux-design-spec`, `ux-prototype`.
+`ux-design-spec`, `ux-prototype`, `to-tickets`. Unlike the rest, `to-tickets` is also meant to
+be invoked directly — its own description says so, rather than marking itself internal.
 
 Not built yet — say so rather than improvising a thin version:
 

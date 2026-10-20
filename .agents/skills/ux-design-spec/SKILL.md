@@ -107,6 +107,13 @@ that it was added by their decision rather than by the brief.
 **Out of scope must contain real cuts.** A spec where nothing was cut either had a perfectly
 scoped brief or skipped this phase. Say which.
 
+**Cost is a separate question from scope.** Something the brief genuinely requires can still
+cost far more to build than the value it delivers — that is not a reason to cut it, since the
+brief does require it, but it is a reason to say so. Where an in-scope item looks
+disproportionately expensive next to what it buys, record it under **Open questions** naming
+the tradeoff, rather than silently specifying it or unilaterally cutting something the brief
+asked for.
+
 ## Phase 2 — The spec
 
 Write to `.ux/specs/<feature>.md`, matching the brief's filename. Create `.ux/specs/` if
@@ -148,6 +155,13 @@ would do.>
 ## States
 <For each surface: default, empty, loading or in-progress, error, success. Empty and error are
 the ones teams skip — do not skip them.>
+
+## Rollback
+<How this gets turned off or reverted if it ships wrong: a flag, a config toggle, reverting the
+deploy, or "reverting the commit is enough" when the change is additive with no migration or
+irreversible write. Name the actual mechanism rather than asserting one exists. If something
+here is genuinely hard to reverse — a data migration, a deleted capability, a public API change
+— say so plainly; that is itself a finding for Theme G in Phase 3, not something to soften here.>
 
 ## Copy
 <Actual strings: labels, headings, button text, confirmations, error messages. Real text, not
@@ -195,8 +209,8 @@ say so.
 Read `../ux-companion/references/design-questions.md` — the family's shared criteria asset.
 If that relative path does not resolve, Glob for `**/ux-companion/references/design-questions.md`.
 
-Check the spec against **Themes B–J**. Theme A (Problem & motivation) was settled by the brief;
-do not re-derive it. Themes K and L are handled by the `Product opportunities` and
+Check the spec against **Themes B–J and M**. Theme A (Problem & motivation) was settled by the
+brief; do not re-derive it. Themes K and L are handled by the `Product opportunities` and
 `Signature moment` spec sections above, not here.
 
 **Change stance before you start.** You just wrote this spec, and checking your own work in the
@@ -242,11 +256,14 @@ The spec file is the deliverable. End by telling the user the next step and stop
 - `ux-prototype` to turn the spec into something someone can click or read as a real session —
   the cheapest way to find out whether the design is actually any good, and it gives `ux-review`
   a surface to evaluate before engineering spends anything.
-- `/to-spec` or `/to-tickets` to turn the spec into tickets.
+- `to-tickets`, whenever the user is ready to file this spec as Jira tickets — now, later, or in
+  a different session. Ticketing is optional and on its own schedule; never present it as an
+  automatic next step.
 - `ux-review` once there is a prototype or a real UI, for the visual criteria this phase
   deliberately skipped.
 
-**Do not create Jira work items.** Handing off is this skill's last action.
+**Do not create Jira work items.** That happens in `to-tickets`, not here — handing off is this
+skill's last action.
 
 ## Do not
 

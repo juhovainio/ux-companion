@@ -9,8 +9,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS = sorted((ROOT / ".agents/skills").glob("*/SKILL.md"))
-KNOWN = {"ux-companion", "ux-discover", "ux-user-context", "ux-research", "ux-concepts",
-         "ux-design-spec", "ux-prototype"}
+KNOWN = {
+    "ux-companion", "ux-discover", "ux-user-context", "ux-research", "ux-concepts",
+    "ux-design-spec", "ux-prototype", "to-tickets",
+}
 
 
 def parse_frontmatter(text):
@@ -55,8 +57,11 @@ def check(path):
             "ever dispatched by another skill"
         )
     for tool in re.split(r",\s*", fm.get("allowed-tools", "")):
-        if tool and not re.fullmatch(r"[A-Z][A-Za-z]*", tool):
-            yield f"allowed-tools entry {tool!r} is not a bare tool name"
+        if tool and not re.fullmatch(r"[A-Z][A-Za-z]*|mcp__[a-z][a-z0-9_]*", tool):
+            yield (
+                f"allowed-tools entry {tool!r} is not a bare CamelCase tool name "
+                "(e.g. 'Read') or an MCP-qualified name (e.g. 'mcp__server__tool')"
+            )
 
 
 def main():
