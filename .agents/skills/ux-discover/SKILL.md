@@ -25,9 +25,11 @@ Read what already exists, so you never ask for something the repo already states
 1. `.ux/USERS.md` — who the users are
 2. `.ux/surface-map.md` — the product's areas, navigation and terms
 3. `.ux/briefs/` — existing briefs, in case this overlaps one
-4. `../ux-companion/references/design-questions.md` — the shared themes. If that relative path
+4. `.ux/evidence/INDEX.md` — already-logged observations, and the gaps section saying what the
+   log cannot speak for. Atoms here are the cheapest evidence available; cite them by ID.
+5. `../ux-companion/references/design-questions.md` — the shared themes. If that relative path
    does not resolve, Glob for `**/ux-companion/references/design-questions.md`.
-5. If the user named a Jira ticket or Confluence page, read it
+6. If the user named a Jira ticket or Confluence page, read it
 
 Say what you found in one line: "Read `USERS.md` — I have your three personas, so I'll skip
 the who-is-this-for questions." If `.ux/` does not exist, say nothing and carry on.
@@ -103,7 +105,9 @@ loud when you present the brief.
 Every claim in the brief carries one of two tags:
 
 - `**Evidence:**` — something observed, with a source: a link, a ticket, a quote, a metric,
-  a named conversation. "Three support tickets last month ([AMD-1234](…))".
+  a named conversation. "Three support tickets last month ([AMD-1234](…))". Where
+  `.ux/evidence/` exists, cite the atom — "14 of 320 Q3 tickets (EV-0042)" — so the claim
+  carries its denominator and someone can follow it back.
 - `**Assumption:**` — believed but not shown. Anything the user said they thought, guessed,
   or expected. Add `⚠️ drives a decision` when the brief's direction would change if it
   turned out false.
