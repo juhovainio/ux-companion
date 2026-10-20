@@ -31,6 +31,8 @@ confirmed once, read by every skill afterwards.
    direction chosen against an unstated problem is a preference, not a design decision.
 2. `.ux/PRINCIPLES.md` — see Phase 0.
 3. `.ux/USERS.md`, `.ux/surface-map.md` — who, and where it would live.
+   `.ux/LANDSCAPE.md` and `.ux/evidence/` where they exist — prior art already verified and
+   dated, and observations already logged, so Phase 1 extends them instead of repeating them.
 4. `../ux-companion/references/design-questions.md` — the shared themes. If that relative path
    does not resolve, Glob for `**/ux-companion/references/design-questions.md`.
 5. The repo, for what already exists that does part of this.
@@ -67,8 +69,14 @@ You cannot push a boundary you have not located. Before generating anything, fin
 problem is already solved — in this repo, in adjacent tools the users already know, and in
 products from other domains with the same structural problem.
 
-Search for it where published sources would settle it, per *Grounding in research* in the
-shared themes. Then answer three questions:
+**Read `.ux/LANDSCAPE.md` first if it exists.** A standing landscape has already done this work
+and dated it — start from it rather than re-deriving it, and check its `Review by` date before
+leaning on a claim. This sweep is still yours: the landscape covers the market in general, and
+the question here is narrower. Where the two disagree, the finding is worth recording, and
+`ux-competitor` is where it goes.
+
+Search for what the landscape does not cover, where published sources would settle it, per
+*Grounding in research* in the shared themes. Then answer three questions:
 
 1. **What is the conventional solution?** The one that would survive any review, that three
    competitors already ship. Name it — it becomes the baseline every other direction is
@@ -170,6 +178,11 @@ someone could disagree with.>
 Show the user the directions and the recommendation, and **get a decision before writing any
 spec.** Choosing between directions is the user's call, not yours — this skill's output is a
 comparison, not a verdict.
+
+If Phase 1 turned up prior art worth keeping past this decision — a competitor who changed
+approach, a constraint the whole category accepts — offer `ux-competitor` to fold it into
+`.ux/LANDSCAPE.md`. Without that, the sweep dies with this file and the next decision pays for
+it again.
 
 Then: `ux-design-spec` on the chosen direction. Its overengineering gate still runs and still
 cuts — divergence happened in thinking, not in scope. The direction it receives is the best of

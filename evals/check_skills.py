@@ -10,8 +10,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS = sorted((ROOT / ".agents/skills").glob("*/SKILL.md"))
 KNOWN = {
-    "ux-companion", "ux-discover", "ux-user-context", "ux-research", "ux-concepts",
-    "ux-design-spec", "ux-prototype", "to-tickets",
+    "ux-companion", "ux-discover", "ux-user-context", "ux-research", "ux-evidence",
+    "ux-competitor", "ux-concepts", "ux-design-spec", "ux-prototype", "to-tickets",
 }
 
 

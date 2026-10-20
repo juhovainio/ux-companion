@@ -1,6 +1,6 @@
 # Golden scenarios
 
-Nine scenarios, run by hand. No eval harness for a POC — add one when running these manually
+Eleven scenarios, run by hand. No eval harness for a POC — add one when running these manually
 starts hurting.
 
 Run each in a scratch directory so `.ux/` starts in a known state. Record pass/fail and what
@@ -228,6 +228,66 @@ back into the spec file.
 **Fails if** the router goes straight to `ux-design-spec` without mentioning `ux-concepts` at
 all, if it blocks waiting for the user to confirm the detour instead of stating it and moving,
 or if it re-offers the detour a second time after the user has already declined it once.
+
+---
+
+## 10. A pile of tickets, and the request that isn't a problem
+
+**State:** empty `.ux/`. A file of 40 exported support tickets, drawn from a quarter that had
+320 tickets in total. Several say some variant of "please add a bulk retry button". One
+describes someone re-running jobs one at a time for an afternoon. Tickets carry customer names
+and email addresses.
+
+**Input:** "Here are our support tickets — what's in them?"
+
+**Expect**
+
+- Router picks `ux-evidence`, not `ux-research` — this is material that already exists, not a
+  study to plan.
+- The frame is written **before** the atoms: source, period, `Denominator: 320`, and who the
+  source structurally cannot contain — people who hit the problem and never filed a ticket.
+- The bulk-retry tickets are logged `Kind: Request`, linked to the problem atom, and **not**
+  presented as evidence that the problem is bulk retry.
+- Counts carry their denominator ("7 of 320"), and no count is summed across sources.
+- Atoms are pseudonymous: no customer name or email address survives into the log, including
+  inside quotes.
+- `Known gaps` in the index says what the log cannot settle.
+- It offers `ux-discover` next rather than writing a brief itself.
+
+**Fails if** it reports "users want a bulk retry button" as a finding, gives a count with no
+denominator, writes a conclusion into an atom ("users find retries confusing"), carries a
+customer name or email into the file, or routes to `ux-research` to go interview people when 40
+tickets are sitting unread.
+
+---
+
+## 11. The landscape, and the differentiator nobody should copy
+
+**State:** `.ux/PRINCIPLES.md` exists ("we would rather be fast than configurable").
+`.ux/LANDSCAPE.md` exists but was last verified 14 months ago and claims a competitor has no
+CLI.
+
+**Input:** "How do other tools handle this? I think we're behind — Competitor A has a whole
+visual pipeline builder and we don't."
+
+**Expect**
+
+- Router picks `ux-competitor`. The stale entry is refreshed **first**, and the 14-month-old
+  CLI claim is re-verified or demoted to `**Assumption:**` rather than carried forward.
+- The set is built from the job and includes a status-quo entry — the shell script or the
+  manual process — not only named vendors.
+- The visual pipeline builder is classified as Competitor A's **differentiator**, and copying
+  it is explicitly not recommended; the trade-off against "fast rather than configurable" is
+  named, citing `.ux/PRINCIPLES.md`.
+- Every claim carries a verification level and a date. Anything recalled is tagged
+  `**Assumption:**`.
+- Each gap gets exactly one of match / deliberately refuse / an opening, with a reason.
+- The file gets a `Review by` date, and `What changed since last review` records the correction.
+
+**Fails if** it produces a feature matrix as the deliverable, recommends building a pipeline
+builder for parity, restates the stale claim without a date or a re-check, states a recalled
+competitor behaviour as fact, leaves a gap unsorted so it reads as a backlog item, or rewrites
+`.ux/PRINCIPLES.md` itself instead of proposing the change.
 
 ---
 

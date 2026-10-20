@@ -23,13 +23,24 @@ maps, opportunity-solution trees, and prioritised roadmap recommendations. Perso
 jobs-to-be-done belong to `ux-user-context` — when synthesis produces something about who the
 users are, hand it there rather than writing a second description of the same people.
 
+Unsolicited material — support tickets, reviews, forum threads, sales notes — belongs to
+`ux-evidence`, which logs it as individually citable atoms. This skill synthesises *studies*;
+that one maintains a *standing log*. Material that arrives without anyone having planned a
+study goes there first, and its atoms can then be an input here.
+
 If asked for something out of scope, say it is not built yet and offer the nearest thing that
 is. Do not produce a hollow version.
 
 ## Before starting
 
-Read `.ux/USERS.md`, `.ux/briefs/`, and `.ux/research/`. Research that re-asks a question the
-repo already answers wastes the scarcest resource here, which is a real user's half hour.
+Read `.ux/USERS.md`, `.ux/briefs/`, `.ux/research/`, and `.ux/evidence/INDEX.md`. Research that
+re-asks a question the repo already answers wastes the scarcest resource here, which is a real
+user's half hour.
+
+**The evidence log comes before the study.** Where `.ux/evidence/` holds atoms bearing on the
+question, read them first — material already sitting on disk costs nothing and is the reason to
+narrow a study rather than cancel it. Read the log's `Known gaps` section too: what the log
+structurally cannot speak for is, by construction, what the sessions are for.
 
 If a brief exists, start from its **assumptions that drive decisions** — those are, by
 construction, the things most worth validating.

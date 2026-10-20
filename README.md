@@ -10,8 +10,10 @@ already exist.
 ux-companion (router)
       │
       ├─ ux-user-context   who is this for?         → .ux/USERS.md
+      ├─ ux-evidence       what do we already know?  → .ux/evidence/<batch>.md
       ├─ ux-research       is this assumption true?  → .ux/research/<topic>.md
       ├─ ux-discover       what is the problem?      → .ux/briefs/<feature>.md
+      ├─ ux-competitor     how do others solve it?   → .ux/LANDSCAPE.md
       ├─ ux-concepts       how else could we do it?  → .ux/concepts/<feature>.md
       │                                                .ux/PRINCIPLES.md
       ├─ ux-design-spec    how should it work?       → .ux/specs/<feature>.md
@@ -21,13 +23,18 @@ ux-companion (router)
                                  └─→ to-tickets (optional, own schedule)
 ```
 
-The shape of the practice, not just the file list: **discover → diverge → converge → make it
-touchable → evaluate.** The middle two are where most teams skip straight from a problem to a
-specification of the first idea anyone said.
+`ux-evidence` and `ux-competitor` are **standing**, not per-feature: a log and a landscape that
+every later feature reads and every later feature adds to.
+
+The shape of the practice, not just the file list: **know → discover → diverge → converge →
+make it touchable → evaluate.** The middle two are where most teams skip straight from a
+problem to a specification of the first idea anyone said; the first is what most teams never
+accumulate at all, so every feature starts from nothing and the same question gets researched
+twice.
 
 ## Why
 
-Four failure modes this is built to prevent:
+Five failure modes this is built to prevent:
 
 - **Building the wrong thing well.** Nobody wrote down who the user is or what problem this
   solves, so the team optimises a solution to a problem that was never stated.
@@ -38,7 +45,11 @@ Four failure modes this is built to prevent:
 - **Shipping the unobjectionable.** Every heuristic passes, nothing is wrong with it, and
   nobody mentions it to a colleague.
 
-Against all four, the family holds seven lines:
+- **Learning nothing twice.** Each feature starts from a blank page, so the same question gets
+  researched again, the same competitor gets looked up again, and what the last feature found
+  is in somebody's head or a closed tab.
+
+Against all five, the family holds eight lines:
 
 1. **Evidence or Assumption, never neither.** Every claim is tagged. Assumptions that drive
    decisions are flagged. A thin-but-honest brief tells the team to go get evidence; a brief
@@ -61,6 +72,11 @@ Against all four, the family holds seven lines:
 7. **The floor is not the ceiling.** Themes B–J are satisfied by the absence of problems.
    Theme L asks what is actually good here — the one moment someone would screenshot, and the
    honest answer when there isn't one.
+8. **Cheapest source first, and keep what it cost you.** Read the evidence log before planning
+   a study, and the landscape before sweeping prior art — then write back what you learned, so
+   the next feature inherits it. `ux-evidence` and `ux-competitor` exist to be the place it
+   goes; an atom cited as `EV-0042` is what makes line 1's `**Evidence:**` tag checkable rather
+   than decorative.
 
 ## Install
 
@@ -103,7 +119,9 @@ Where that lands:
 |---|---|
 | A vague idea or a feature request | `ux-discover` |
 | No idea who the users are | `ux-user-context` |
+| A pile of support tickets, reviews or transcripts nobody has read | `ux-evidence` |
 | An assumption that needs testing, or raw interview notes | `ux-research` |
+| "How do others solve this?", or a landscape that has gone stale | `ux-competitor` |
 | A problem, and one obvious solution everyone has already assumed | `ux-concepts` |
 | A chosen direction, and you want flows, states and copy | `ux-design-spec` |
 | A spec, and someone who needs to see it to react to it | `ux-prototype` |
@@ -117,10 +135,14 @@ Where that lands:
 .ux/
   USERS.md                # personas / JTBD, context of use, skill level
   PRINCIPLES.md           # the product's design stance, as trade-offs
+  LANDSCAPE.md            # the competition set, table stakes, where we differ, last verified
   surface-map.md          # product areas, navigation, patterns, vocabulary
   jira-project.md         # the Jira project this repo files tickets to (to-tickets)
   briefs/<feature>.md     # Problem Briefs
+  competitors/<product>.md # one teardown each, by flow rather than feature matrix
   concepts/<feature>.md   # directions explored, one chosen, the rest and what they were better at
+  evidence/INDEX.md       # the standing evidence log, and what it cannot speak for
+  evidence/<batch>.md     # citable atoms — one observation, one source, one date
   specs/<feature>.md      # Design specs (gains "## Jira tickets" once filed)
   prototypes/<feature>.*  # one self-contained HTML file, or an exact session transcript
   research/<topic>.md     # research plans, discussion guides, insights
@@ -131,14 +153,13 @@ second feature starts with what the first one learned instead of a blank page.
 
 ## Not built yet
 
-`ux-evidence` (transcripts and support tickets into a tagged evidence log), and `ux-competitor`
-as a standing view of the market — `ux-concepts` Phase 1 sweeps prior art for the decision in
-front of you, which is not the same as keeping a landscape current. The skills say so rather
-than improvising a thin version.
+Deliberately absent: Confluence publishing and a generated or crawled surface map. Direct Jira
+ticket creation is handled by `to-tickets`, behind a mandatory dry-run confirmation gate. See
+[`plans/poc-plan.md`](plans/poc-plan.md) for what the remaining gaps are waiting on.
 
-Also deliberately absent: Confluence publishing and a generated or crawled surface map. Direct
-Jira ticket creation is handled by `to-tickets`, behind a mandatory dry-run confirmation gate.
-See [`plans/poc-plan.md`](plans/poc-plan.md) for what the remaining gaps are waiting on.
+Each skill also states its own cuts rather than improvising a thin version — `ux-evidence` does
+not pull from ticket APIs or score sentiment, `ux-competitor` does not do pricing, market share
+or win/loss, `ux-research` does not do surveys or journey maps.
 
 ## Repo
 

@@ -75,8 +75,9 @@ skill, or when a `SKILL.md` passes ~300 lines.
   research/<topic>.md   # plans, guides, insight summaries (ux-research)
 ```
 
-`evidence/` from the source doc is omitted — `ux-evidence` is out of POC scope, so nothing
-would write it.
+`evidence/` from the source doc was omitted during the POC, since nothing would have written
+it. It exists now — see *The standing pair* below — alongside `LANDSCAPE.md` and
+`competitors/`.
 
 Every skill reads `.ux/` before asking the user anything, so the second feature starts with
 the knowledge from the first instead of a blank page.
@@ -240,8 +241,8 @@ asked that the request, the repo or `.ux/` already answers.
 
 | Thing | Add when |
 |---|---|
-| `ux-evidence` | Marked NO in the POC scope column. After the POC lands. |
-| `ux-competitor` as a standing landscape | `ux-concepts` Phase 1 covers the per-decision sweep. Build this when someone needs the market view to persist between decisions. |
+| ~~`ux-evidence`~~ | Done — built after the POC landed. See *The standing pair* below. |
+| ~~`ux-competitor` as a standing landscape~~ | Done — built after the POC landed. `ux-concepts` Phase 1 now reads `.ux/LANDSCAPE.md` instead of sweeping from zero. |
 | Confluence publishing | Someone outside a repo needs to read the output. |
 | ~~Direct Jira work-item creation~~ | Done — see `to-tickets`. |
 | Shared product-level `USERS.md` | A second repo in the same product needs the same personas. |
@@ -275,6 +276,76 @@ finds typography, not flaws.
 **Not added, deliberately:** a crit skill (the stance change plus `ux-prototype`'s reaction loop
 covers it), a design-system or token skill (nothing in `.ux/` is visual yet), and narrative or
 presentation output (that is downstream of whether the design is any good).
+
+## The standing pair: `ux-evidence` and `ux-competitor`
+
+Everything in the POC family is **per-feature**: a brief, a concept set, a spec, each named for
+one feature and finished when it ships. That shape has a cost nobody notices from inside a
+single feature — each one starts from a blank page. The same assumption gets researched twice,
+the same competitor gets looked up again, and what the last feature learned is in a closed tab.
+
+These two are the family's first **standing** artefacts: they accumulate, they are read by
+later work, and they can go stale in a way someone can see and fix.
+
+| | `ux-evidence` | `ux-competitor` |
+|---|---|---|
+| Keeps | What we have observed | How others solve the same jobs |
+| Unit | The atom — one observation, one source, one date, a permanent ID | The teardown, by flow |
+| Read by | `ux-discover` (cites atoms), `ux-research` (before planning a study) | `ux-concepts` Phase 1 (instead of sweeping from zero) |
+| Goes wrong by | Counting without a denominator; logging a request as a problem | Going stale while being believed; copying a differentiator |
+
+### Why the atom, rather than a second report format
+
+Lifted from **atomic research** (Tomer Sharon and Daniel Pidcock, independently): the unit is an
+observation plus its evidence plus tags, not the study. A study report answers the question it
+was commissioned for and then dies; an atom answers questions nobody had asked yet. That is why
+the ID is permanent and never reused — `ux-discover` citing `EV-0042` is what turns this
+family's `**Evidence:**` tag from a label into something checkable.
+
+The boundary with `ux-research` is **solicited vs unsolicited**, and it is load-bearing:
+`ux-research` designs and synthesises studies, `ux-evidence` logs signal that arrives whether
+anyone asked or not. Without that line the two become competing stores of the same material.
+
+Three rules in `ux-evidence` exist because they are the failures that actually happen in
+research repositories, not because they are tidy:
+
+- **Frame before extraction.** Who the source structurally cannot contain is written down
+  *before* anything is pulled, so the extraction cannot quietly define the sample.
+- **A request is not a problem.** Counting feature requests counts how many people guessed the
+  same solution. The two are separate atom kinds, linked, never collapsed.
+- **Denominators, never summed across frames.** Nine tickets plus four reviews is not thirteen
+  of anything.
+
+Privacy is handled rather than deferred: the log lands in a git repo that may travel further
+than the ticket system did, so atoms are pseudonymous and cite rather than transcribe. Theme M
+applies to what the family *writes*, not only to what the product ships.
+
+### Why a landscape, rather than more prior-art sweeps
+
+`ux-concepts` Phase 1 already answers "how is this solved today" for the decision in front of
+you — and then that answer evaporates. `ux-competitor` keeps the part worth keeping.
+
+Four things it does that a feature matrix does not:
+
+- **The set is defined by the job, not the category** — direct, indirect, analogous, and the
+  status quo. The status quo ring (the spreadsheet, the shell script, doing nothing) is usually
+  winning and is never on anyone's slide.
+- **Teardown by flow.** A matrix row reading "✅ bulk actions" for both products hides that one
+  takes two clicks and the other takes a support request.
+- **Verification level per claim** — Used / Documented / Reported / Recalled, where Recalled is
+  always `**Assumption:**`. Most competitor knowledge in most teams is recalled-but-unchecked,
+  which is why landscapes go wrong *confidently*.
+- **Every gap gets one of three conclusions** — match, deliberately refuse, or an opening. A gap
+  left unsorted becomes a backlog item by default, which is how a competitor's roadmap quietly
+  becomes yours.
+
+It explicitly does not recommend copying a differentiator: you arrive late, worse at it, having
+spent the budget that would have funded the thing you were better at. Table stakes and
+differentiators carry opposite instructions, and conflating them is the feature-parity trap.
+
+**Out of scope for both, stated in the skills:** no API pulls, crawling, scraping or
+screenshotting; no sentiment scoring or automated clustering; no pricing, market share, win/loss
+or battlecards. Those are competitive intelligence and tooling problems, not design ones.
 
 ## Reconciled with `jussi-exploration`
 
