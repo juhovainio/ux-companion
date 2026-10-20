@@ -64,6 +64,18 @@ Against all four, the family holds seven lines:
 
 ## Install
 
+```bash
+npx skills add juhovainio/ux-companion
+```
+
+Picks up your existing GitHub auth (works for this private repo), lets you choose which
+skills and which agent (Claude Code, Codex, Cursor, …) to install to, and symlinks them in so
+updates here show up without reinstalling. Add `--all` to skip the prompts, or `-g` to install
+once for every project. See the [`skills` CLI docs](https://github.com/vercel-labs/skills) for
+all options.
+
+### Manual install
+
 Vendor-neutral `.agents/skills/` layout — works in Claude Code, Codex, Cursor and Rovo Dev.
 Copy or symlink into the repo you are working in:
 
