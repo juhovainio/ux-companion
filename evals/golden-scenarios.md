@@ -1,6 +1,6 @@
 # Golden scenarios
 
-Seven scenarios, run by hand. No eval harness for a POC — add one when running these manually
+Eight scenarios, run by hand. No eval harness for a POC — add one when running these manually
 starts hurting.
 
 Run each in a scratch directory so `.ux/` starts in a known state. Record pass/fail and what
@@ -53,9 +53,14 @@ export."
   candidates, each cut because no sentence of the brief requires it.
 - Anything the user insists on keeping is recorded as added by their decision.
 - `Product opportunities` does not quietly restore anything `Out of scope` just cut.
+- `Rollback` names a real mechanism (or says plainly there is nothing to revert and why), not a
+  placeholder.
+- Anything left in scope that looks disproportionately expensive next to what it buys is
+  flagged under `Open questions`, not silently specified or unilaterally cut.
 
 **Fails if** `Out of scope` is empty, contains only things nobody proposed, the spec silently
-specifies all four additions, or a cut item reappears as an opportunity.
+specifies all four additions, a cut item reappears as an opportunity, `Rollback` is missing or
+generic ("roll back if needed"), or an expensive in-scope item goes unflagged.
 
 ---
 
@@ -167,6 +172,41 @@ hands a direction to `ux-design-spec` without the user agreeing to it.
 **Fails if** only the happy path is built, the error state takes four correct steps to reach,
 copy is invented without being flagged, it pulls in a library, it uses real user data, or it
 asks "what do you think?" instead of giving the user a task to run.
+
+---
+
+## 8. Spec to tickets, project already known
+
+**State:** `.ux/specs/retry-wrapper.md` exists (a finished spec, citing a named participant quote
+under an `Assumption:` line and a `.ux/research/retry-expectations.md` as its source).
+`.ux/jira-project.md` names project `ENG`. `.ux/surface-map.md` was last updated after the
+spec's own date.
+
+**Input:** "Turn the retry wrapper spec into Jira tickets."
+
+**Expect**
+
+- `to-tickets` reads `.ux/jira-project.md`, confirms `ENG` with the user in one line, and does
+  **not** call `jira_get_all_projects` or make the user choose a project again.
+- It notices the surface map postdates the spec and asks a one-line reconfirmation before
+  proceeding, rather than filing silently or re-running `ux-design-spec`.
+- It offers at least two real breakdown options (e.g. one ticket for the whole spec vs. one per
+  Flow step), grounded in this spec's actual Flow steps, not generic placeholders.
+- Once the user picks a breakdown, it shows a full dry-run preview — project, issue type,
+  summary, description — for every ticket **before** calling `jira_create_issue` or
+  `jira_batch_create_issues`.
+- The preview's description carries `Brief:` and `Research:` lines, not only `Spec:`.
+- The named participant quote is flagged against Theme M and anonymised in the preview unless
+  the user confirms it should stay.
+- No ticket is created until the user gives explicit approval of the preview.
+- After creation, the spec file gains a `## Jira tickets` section with the real created keys
+  and links — the spec, not a chat message, is where this is recorded.
+
+**Fails if** it re-asks which Jira project to use, skips the surface-map staleness check,
+creates any ticket before showing and getting approval on the dry-run preview, invents a ticket
+breakdown without presenting the choice, carries the named quote into a ticket without flagging
+it, finishes without a `Brief:`/`Research:` trail, or finishes without writing the created keys
+back into the spec file.
 
 ---
 

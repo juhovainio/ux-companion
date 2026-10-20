@@ -132,6 +132,12 @@ insights.
    - **Moderate** — several participants, or reported rather than observed.
    - **Weak** — one participant, or inferred. Keep it; one person can name a real problem.
      Just do not let it carry a decision alone.
+
+   **A session count below four caps the tag at Moderate**, however many of those few agreed —
+   "most of two" is not what Strong is for. This is the same risk the research plan's own
+   `Risks to validity` field already names ("sample too small to carry the weight we will put
+   on it"); this rule is what keeps that risk from being flagged on paper and then ignored when
+   the insight gets written up.
 4. **Record what contradicted the expectation**, in its own section. This is the part teams
    skip and the part most worth the money.
 5. **Separate what they said from what you concluded.** Implications are yours; label them.

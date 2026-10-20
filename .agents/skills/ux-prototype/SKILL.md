@@ -123,7 +123,8 @@ summary of what people seemed to think.
 - `ux-review` on the prototype — it now has a real surface to evaluate, before engineering
   spent anything.
 - `ux-design-spec` to fold back what the prototype revealed.
-- `/to-spec` or `/to-tickets` once the spec has settled.
+- `to-tickets` to file it in Jira, whenever the user is ready — on its own schedule, not
+  automatically.
 
 ## Do not
 
