@@ -1,12 +1,12 @@
 ---
 name: ux-research
-description: Plans user research and synthesises raw notes into tagged insights. Use when an assumption needs validating before anyone builds, when someone asks "how do we find out if this is true", "help me plan some research", "write me a discussion guide", or when they have interview or usability-session notes that need turning into findings. Produces research plans, discussion guides and insight summaries in .ux/research/. Do NOT use to scope a problem (use ux-discover), to write or update personas (use ux-user-context), or to evaluate a built UI (use ux-review).
+description: Internal — do not invoke directly. Plans user research and synthesises raw interview or usability-session notes into tagged insights. Produces research plans, discussion guides and insight summaries in `.ux/research/`.
 allowed-tools: Read, Write, Glob, Grep
 ---
 
 # UX Research
 
-This is an AI instruction file. Follow these directives when planning research or synthesising
+Follow these directives when planning research or synthesising
 notes.
 
 ## Scope

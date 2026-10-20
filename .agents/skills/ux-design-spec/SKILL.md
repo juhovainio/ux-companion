@@ -1,12 +1,12 @@
 ---
 name: ux-design-spec
-description: Turns a Problem Brief into a defensible design spec — flows, entry points, placement in the existing product, states and copy — after first cutting it to the smallest version that solves the problem. Use when a problem is understood and the user wants a design direction, a feature spec, or a scope cut; "design this", "how should this work", "write the spec", "this feels too big". Runs a pre-build heuristic check before handoff. Do NOT use when the problem itself is still vague (use ux-discover) or when a built UI needs reviewing (use ux-review).
+description: Internal — do not invoke directly. Turns a Problem Brief into a defensible design spec — flows, entry points, placement in the existing product, states and copy — after first cutting it to the smallest version that solves the problem. Runs a pre-build heuristic check before handoff.
 allowed-tools: Read, Write, Glob, Grep, WebSearch
 ---
 
 # UX Design Spec
 
-This is an AI instruction file. Follow these directives when turning a Problem Brief into a
+Follow these directives when turning a Problem Brief into a
 design spec.
 
 Run three phases in order: **Overengineering gate → Spec → Pre-build heuristic check.**

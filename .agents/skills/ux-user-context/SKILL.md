@@ -1,12 +1,12 @@
 ---
 name: ux-user-context
-description: Builds and maintains .ux/USERS.md — the personas or jobs-to-be-done, context of use and skill level for a product. Use when someone asks "who is the user?", "who are we building this for?", "do we have personas", when a repo needs reusable user context, or when another UX skill needs USERS.md and it is missing or out of date. Works from questions to the caller on a cold start, or from existing docs, briefs and notes when expanding. Do NOT use to plan or synthesise research (use ux-research) or to scope a problem (use ux-discover).
+description: Internal — do not invoke directly. Builds and maintains `.ux/USERS.md` — personas or jobs-to-be-done, context of use, and skill level for a product. Works from questions to the caller on a cold start, or from existing docs, briefs and notes when expanding.
 allowed-tools: Read, Write, Glob, Grep
 ---
 
 # UX User Context
 
-This is an AI instruction file. Follow these directives when building or expanding `USERS.md`.
+Follow these directives when building or expanding `USERS.md`.
 
 ## What this produces
 

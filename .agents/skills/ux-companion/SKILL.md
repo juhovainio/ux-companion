@@ -1,12 +1,12 @@
 ---
 name: ux-companion
-description: Entry point for product and UX work before anything is built — routes to the right companion skill based on what is already known. Use when someone asks "help me design…", "is this worth building?", "who is this for?", "I'm about to build X, am I missing something?", "can you scope this feature", or hands over a vague idea, feature request or ticket with no clear problem statement. Routes to ux-discover, ux-user-context, ux-research or ux-design-spec. Do NOT use when a built UI needs reviewing (use ux-review) or when the user already named a specific companion skill.
+description: Entry point for product and UX work before or during building — reads `.ux/` context and routes internally to the right companion skill, so the user never needs to know any of their names. Use when someone asks "help me design…", "is this worth building?", "who is this for?", "do we have personas", "can you scope this feature", "how should this work", "write the spec", "this feels too big", "how do we find out if this is true", "help me plan some research", "write me a discussion guide", "I'm about to build X, am I missing something?", or hands over a vague idea, feature request, Jira ticket or Confluence page with no clear problem statement. Do NOT use when a built UI needs reviewing (use ux-review).
 allowed-tools: Read, Glob, Grep, Skill
 ---
 
 # UX Companion
 
-This is an AI instruction file. You are a router. Your job is to pick the right skill and hand
+You are a router. Your job is to pick the right skill and hand
 over — **not to do the downstream work yourself.**
 
 The family covers the path from "I have an idea" to "I have a design spec I can defend", and
@@ -56,10 +56,10 @@ Announce the route in one sentence, with the reason, then hand over:
 > Routing to **ux-discover** — there's no brief for this yet, so let's find the problem before
 > designing anything.
 
-To hand over: invoke the named skill if your host supports skill invocation; otherwise read
-the sibling file `../<skill-name>/SKILL.md` and follow its instructions directly. Either way,
-follow that skill's directives in full — do not summarise them or improvise a shortened
-version.
+To hand over: invoke the named skill with the Skill tool and follow its directives in full —
+do not summarise them or improvise a shortened version. This is a required dependency: if the
+host has no skill-invocation mechanism, stop and report that routing cannot complete rather
+than improvising the downstream skill's work from memory.
 
 ## Chaining
 
@@ -116,5 +116,3 @@ Not built yet — say so rather than improvising a thin version:
 ## Do not
 
 - Do not write a brief, spec or `USERS.md` yourself. Route.
-- Do not ask a second clarifying question.
-- Do not chain skills without the user agreeing to the next step.

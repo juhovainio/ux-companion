@@ -1,12 +1,12 @@
 ---
 name: ux-discover
-description: Turns a vague idea or feature request into a Problem Brief by reasoning the answers out from context first and asking only what the user alone can supply. Use when someone has an idea, a feature request, a Jira ticket or a Confluence page but no clear problem statement — "we should build X", "can you help me scope this", "is this worth building", "write up this feature request". Also provides probe questions during a live user interview. Do NOT use when a Problem Brief already exists and the user wants a design direction (use ux-design-spec), or when a UI already exists and needs reviewing (use ux-review).
+description: Internal — do not invoke directly. Turns a vague idea or feature request into a Problem Brief by reasoning the answers out from context first and asking only what the user alone can supply, or provides probe questions during a live user interview.
 allowed-tools: Read, Write, Glob, Grep, WebSearch
 ---
 
 # UX Discover
 
-This is an AI instruction file. Follow these directives when turning an idea into a Problem Brief.
+Follow these directives when turning an idea into a Problem Brief.
 
 ## What this produces
 
