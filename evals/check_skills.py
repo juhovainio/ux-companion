@@ -47,8 +47,12 @@ def check(path):
     desc = fm.get("description", "")
     if len(desc) < 40:
         yield "description missing or too short to route on"
-    elif "Use when" not in desc:
-        yield "description should say when to use the skill ('Use when ...')"
+    elif "Use when" not in desc and "do not invoke directly" not in desc.lower():
+        yield (
+            "description should say when to use the skill ('Use when ...'), "
+            "or mark itself internal ('do not invoke directly') if it is only "
+            "ever dispatched by another skill"
+        )
     for tool in re.split(r",\s*", fm.get("allowed-tools", "")):
         if tool and not re.fullmatch(r"[A-Z][A-Za-z]*", tool):
             yield f"allowed-tools entry {tool!r} is not a bare tool name"
