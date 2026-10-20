@@ -82,10 +82,25 @@ Every skill here follows these. Hold them to it.
    source or `**Assumption:**`, with `⚠️ drives a decision` on the load-bearing ones.
 2. **Records decisions, does not invent them.** Nothing is written as a decision unless the
    user confirmed it. Unresolved goes to Open questions.
-3. **One question at a time.** Stop when the answer is clear enough, not after a fixed count.
+3. **Reason first, ask last.** Work the answer out from context, research it where a published
+   finding would sharpen it, state an assumption where neither settles it — and reserve
+   questions for what only the user can supply. Those questions are then asked one at a time,
+   stopping when the answer is clear enough rather than after a fixed count.
 4. **Existing context first.** Read `.ux/` before asking what is already written down.
 5. **Smallest version first.** The design spec states the minimum that solves the problem;
    anything larger is justified against the brief or cut.
+6. **Both lenses.** Every consumer is a person operating an interface or an agent calling a
+   tool, and most products have both. The shared themes in
+   `references/design-questions.md` carry a Human lens and an Agent lens on each theme — apply
+   both unless the consumer is clearly only one.
+
+## Shared criteria
+
+`references/design-questions.md` holds Themes A–K, the family's single criteria asset.
+`ux-discover` reasons through Theme A, `ux-design-spec` through B–J in its heuristic check and
+K in its spec, `ux-user-context` uses the Human/Agent lens distinction. It lives under this
+skill because it belongs to the family, not to any one member. Edit it there — a theme restated
+inside a skill becomes a second copy that drifts.
 
 ## Scope
 

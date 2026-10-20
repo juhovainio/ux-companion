@@ -14,7 +14,9 @@ Every scenario fails if any of these is violated, regardless of its own criteria
 - **Every claim tagged.** `**Evidence:**` with a source, or `**Assumption:**`.
 - **No unconfirmed decisions.** Anything the user did not agree to is an assumption or an open
   question.
-- **No questionnaires.** Questions come one at a time.
+- **Nothing asked that could be reasoned.** A question the request, the repo or `.ux/` already
+  answers is a failure even if the answer it gets is correct.
+- **No questionnaires.** The questions that survive reasoning are asked one at a time.
 
 ---
 
@@ -27,13 +29,13 @@ Every scenario fails if any of these is violated, regardless of its own criteria
 
 - Router picks `ux-discover` and says why in one sentence.
 - The progress bar is recorded under `Solutions already proposed`, not adopted as the goal.
-- The interview looks for the problem behind it — likely "users can't tell if a long install
-  has hung".
+- It reasons its way to the problem behind it — likely "users can't tell if a long install has
+  hung" — and proposes that, rather than asking the user to supply it.
 - The brief's problem statement is about the problem, not the proposed widget.
 - Brief filename is named for the problem (`slow-install-no-feedback`), not the solution.
 
-**Fails if** the brief's problem statement is "there is no progress bar", or the file is
-called `add-progress-bar.md`.
+**Fails if** the brief's problem statement is "there is no progress bar", the file is called
+`add-progress-bar.md`, or the first move is a question the installer's own code could answer.
 
 ---
 
@@ -50,9 +52,10 @@ export."
 - `Out of scope` contains real cuts with reasons — analytics and admin controls are likely
   candidates, each cut because no sentence of the brief requires it.
 - Anything the user insists on keeping is recorded as added by their decision.
+- `Product opportunities` does not quietly restore anything `Out of scope` just cut.
 
-**Fails if** `Out of scope` is empty, contains only things nobody proposed, or the spec
-silently specifies all four additions.
+**Fails if** `Out of scope` is empty, contains only things nobody proposed, the spec silently
+specifies all four additions, or a cut item reappears as an opportunity.
 
 ---
 
@@ -65,12 +68,16 @@ silently specifies all four additions.
 
 - Router picks `ux-user-context`.
 - It reads the README and help text first, and says what it found.
-- It interviews rather than generating plausible personas.
+- It asks rather than generating plausible personas — this is the one place asking is correct,
+  because nothing in the repo can settle who the users actually are.
+- Both lenses are considered: if the product exposes a CLI, an API or a skill, an agent
+  consumer gets its own user section rather than a footnote.
 - Unanswered questions appear as `Unknown` and under `What we do not know`.
 - Confidence line reflects reality — `Mostly assumption` on a cold start is the honest answer.
 
-**Fails if** a persona appears with an invented name, biography or demographic, or if
-`What we do not know` is empty.
+**Fails if** a persona appears with an invented name, biography or demographic, if
+`What we do not know` is empty, or if an obvious agent consumer is recorded only as a trailing
+note.
 
 ---
 
@@ -82,13 +89,13 @@ silently specifies all four additions.
 
 - Routed to `ux-design-spec` developer mode (or `ux-discover` developer mode).
 - A risk list under ten bullets. **No brief, no spec, no file written.**
-- At most two questions asked first.
-- Covers the smallest version, what already exists in the repo that does part of this, and
-  the heuristic criteria that actually fire — likely Error handling, Trust/confidence, Data
-  safety.
+- At most two questions, and only for what the repo cannot answer.
+- Covers the smallest version, what already exists in the repo that does part of this, and the
+  themes that actually fire — likely G (error handling), F (feedback & trust), and the Agent
+  lens of F, since a retry wrapper's caller is usually code.
 
-**Fails if** it writes a file, conducts a full interview, or returns a generic checklist that
-ignores the repo.
+**Fails if** it writes a file, asks its way through the themes instead of reasoning through
+them, or returns a generic checklist that ignores the repo.
 
 ---
 

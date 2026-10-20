@@ -1,7 +1,7 @@
 ---
 name: ux-design-spec
 description: Turns a Problem Brief into a defensible design spec — flows, entry points, placement in the existing product, states and copy — after first cutting it to the smallest version that solves the problem. Use when a problem is understood and the user wants a design direction, a feature spec, or a scope cut; "design this", "how should this work", "write the spec", "this feels too big". Runs a pre-build heuristic check before handoff. Do NOT use when the problem itself is still vague (use ux-discover) or when a built UI needs reviewing (use ux-review).
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Glob, Grep, WebSearch
 ---
 
 # UX Design Spec
@@ -21,6 +21,7 @@ Read all of these before starting:
    about the user, flagged.
 3. `.ux/surface-map.md` — where the feature will live. If missing, see *No surface map* below.
 4. The repo itself, for existing patterns, terms and components the design should reuse.
+5. `../ux-companion/references/design-questions.md` — the shared themes, used in Phase 3.
 
 **No brief.** A spec without a problem statement invents its own, which is the failure this
 family exists to prevent. Offer `ux-discover` first. If the user declines and wants to proceed
@@ -141,6 +142,13 @@ why it was not chosen. If no simpler alternative exists, say so explicitly.>
 ## Out of scope
 <Each cut thing, with the reason. Cuts from Phase 1 and anything the user deferred.>
 
+## Product opportunities
+<Theme K. Adjacent value this opens up that nobody asked for: a capability cheap to add
+alongside the core one, a second consumer type — human or agent — the same flow would serve,
+a pattern worth generalising once built. Opportunities, not requirements, and not scope: each
+one must extend something already decided above. If it would need its own problem statement to
+justify, name it as a separate idea instead.>
+
 ## Assumptions
 - **Assumption:** <claim> ⚠️ drives a decision — <what changes if this is wrong>
 
@@ -155,33 +163,37 @@ say so.
 
 ## Phase 3 — Pre-build heuristic check
 
-Check the spec against the criteria that are meaningful without a built UI. Visual criteria —
-Affordance, Visual hierarchy, Loading state styling — need a real interface; `ux-review` covers
-those after the feature exists. Do not guess at them here.
+Read `../ux-companion/references/design-questions.md` — the family's shared criteria asset.
+If that relative path does not resolve, Glob for `**/ux-companion/references/design-questions.md`.
 
-| Criterion | Ask of the spec |
-|---|---|
-| **Clarity** | Is every label, command name and message unambiguous to someone who has not read this spec? Any unexplained jargon? Any generic action name where a specific one would say more? |
-| **Efficiency** | Are there more steps or decisions than the task's complexity justifies? Can any step be removed, defaulted, or inferred? |
-| **Error prevention** | Is there a safeguard before each foreseeable error with serious consequences — data loss, irreversibility, significant wasted effort? Are field and input constraints surfaced before the consumer hits them? |
-| **Error handling** | Does every failure mode produce a message saying what happened and what to do next? Is each one recoverable? |
-| **Empty state** | What does the consumer get when there is nothing to show? Does it explain why and offer a next action? |
-| **Trust / confidence** | Before a consequential or irreversible action, does the consumer have enough information to commit confidently? (This fires even when a confirmation gate exists.) |
-| **Data safety** | Can in-progress input be silently lost — navigation away, session expiry, interruption, a multi-step flow with no saved progress? |
-| **Cognitive load** | Does any single step demand disproportionately more processing than the task justifies? Ungrouped long forms, many equal-weight choices, deep nesting. |
+Check the spec against **Themes B–J**. Theme A (Problem & motivation) was settled by the brief;
+do not re-derive it. Theme K is handled by the `Product opportunities` spec section above, not
+here.
 
-Report findings in the spec under `## Pre-build heuristic check`, each one naming the
-criterion, the spec section it applies to, and a concrete fix. Then **apply the fixes to the
-spec** rather than leaving a list of complaints attached to an unchanged document.
+Apply **both the Human lens and the Agent lens** of each theme, unless the consumer this spec
+names is clearly only one of the two. Where it is unclear which, that is itself a finding.
 
-If the check finds nothing, say so plainly and name the two or three criteria you examined
-most closely — that is more useful than a silent pass.
+Visual criteria — affordance rendering, visual hierarchy, loading-state styling — need a real
+interface; `ux-review` covers those after the feature exists. Do not guess at them here. Themes
+C and I have visual aspects: assess only the parts a spec can answer (is it reachable from
+where the consumer is, is the step count proportionate), not how it will look.
+
+Report findings in the spec under `## Pre-build heuristic check`, each one naming the theme and
+lens, the spec section it applies to, and a concrete fix. Then **apply the fixes to the spec**
+rather than leaving a list of complaints attached to an unchanged document.
+
+If the check finds nothing, say so plainly and name the two or three themes you examined most
+closely — that is more useful than a silent pass.
 
 ## Developer mode
 
 "I'm about to build X, am I missing something?" — no spec, no file. Run Phase 1 and Phase 3
 only, and return a short risk list: the smallest version, what is being built beyond it, and
-the heuristic criteria that actually fire. Under ten bullets.
+the themes that actually fire. Under ten bullets.
+
+This mode still reasons through the themes properly — it skips the writing, not the thinking.
+Reason the answers out from the repo rather than asking; ask at most two questions, and only
+for what the repo cannot tell you.
 
 ## Handoff
 
@@ -199,3 +211,7 @@ The spec file is the deliverable. End by telling the user the next step and stop
 - Do not invent users, metrics, quotes or evidence.
 - Do not design around a screen when the consumer is a script or an agent.
 - Do not assess visual criteria from a spec.
+- Do not let `Product opportunities` reopen Phase 1's cuts. A thing cut for having no basis in
+  the brief does not come back as an opportunity — it comes back when the brief changes.
+- Do not restate a theme's content in this file. Edit the shared themes file instead; a second
+  copy drifts.

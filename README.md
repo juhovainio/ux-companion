@@ -26,16 +26,22 @@ Two failure modes this is built to prevent:
 - **Overengineering.** The spec grows a settings page, an admin view and analytics before
   anyone has used version one.
 
-Against both, the family holds four lines:
+Against both, the family holds five lines:
 
 1. **Evidence or Assumption, never neither.** Every claim is tagged. Assumptions that drive
    decisions are flagged. A thin-but-honest brief tells the team to go get evidence; a brief
    padded with confident guesses tells them to go build.
 2. **Records decisions, does not invent them.** Nothing is written as a decision unless you
    confirmed it.
-3. **One question at a time.** Like an interview, not a form. Stops when the answer is clear.
+3. **Reason first, ask last.** It works the answer out from your request, your repo and
+   published research before it asks you anything — then asks only what you alone can supply,
+   one question at a time. Answering a questionnaire leaves you with the gaps you started
+   with, itemised.
 4. **Smallest version first.** The spec states the minimum that solves the problem; anything
    larger is justified against the brief or cut, with the reason.
+5. **Both lenses.** Every criterion is applied twice: to a person operating an interface, and
+   to an agent calling a tool. Findability for an agent is the tool description it reads
+   before acting, not a menu it can see.
 
 ## Install
 
@@ -98,10 +104,17 @@ waiting on.
 
 ```
 .agents/skills/<skill>/SKILL.md   the skills — one self-contained file each
+.agents/skills/ux-companion/
+  references/design-questions.md  Themes A–K — the shared criteria, read by three skills
 plans/poc-plan.md                 decisions, contracts, build order, deferred work
+plans/reconciliation.md           comparison with the parallel jussi-exploration branch
 evals/golden-scenarios.md         five scenarios, run by hand
 evals/check_skills.py             frontmatter validation — run after editing any skill
 ```
+
+Themes A–J generalise the `ux-review` heuristics to the pre-build stage; K is the one
+generative theme. They live in one file because three skills read them — edit there, never
+restate a theme inside a skill.
 
 ```bash
 python3 evals/check_skills.py

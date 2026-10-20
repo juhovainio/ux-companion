@@ -31,7 +31,14 @@ def parse_frontmatter(text):
 def check(path):
     """Yield problems with one SKILL.md."""
     slug = path.parent.name
-    fm = parse_frontmatter(path.read_text(encoding="utf-8"))
+    text = path.read_text(encoding="utf-8")
+
+    # Three skills read the shared themes by relative path. A rename here is silent at runtime.
+    for ref in set(re.findall(r"`(\.\./[\w./-]+\.md)`", text)):
+        if not (path.parent / ref).resolve().is_file():
+            yield f"references {ref}, which does not resolve"
+
+    fm = parse_frontmatter(text)
     if fm is None:
         yield "missing or unterminated --- frontmatter block"
         return

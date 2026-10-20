@@ -36,18 +36,30 @@ updated or deleted so the doc stops contradicting itself.
 
 ## Architecture
 
-### One self-contained `SKILL.md` per skill
+### One self-contained `SKILL.md` per skill, plus one shared reference
 
-No `references/`, no `scripts/`, no shared `templates/` directory. Templates and conventions
-are embedded in each `SKILL.md`.
+Each `SKILL.md` embeds its own templates and conventions. No `scripts/`, no shared
+`templates/` directory.
 
-The existing `ux-review` family splits long content into `references/` and resolves the path
-at runtime with a `find $HOME/.claude/skills/...` shell fallback. That plumbing is worth it
-there because the content is genuinely long and the family is Claude Code only. Here it
-would buy duplication of roughly ten lines of shared convention in exchange for a path
-resolution step that Codex and Cursor handle differently. Not worth it.
+The original plan had no `references/` at all. The existing `ux-review` family splits long
+content into `references/` and resolves the path at runtime with a `find $HOME/.claude/skills/…`
+shell fallback — worth it there because the content is long and the family is Claude Code
+only. Here it looked like it would buy duplication of ten lines of shared convention in
+exchange for a path resolution step Codex and Cursor handle differently.
 
-**Upgrade trigger:** split a skill into `references/` when its `SKILL.md` passes ~300 lines.
+**That trigger has since been tripped**, not by length but by sharing. Reconciling with
+`jussi-exploration` brought in a 190-line themes file (A–K, each with a Human lens and an
+Agent lens) that three skills read. Inlining it would mean three copies that drift, which is
+exactly the failure the "no duplication" argument was protecting against. It lives at
+`.agents/skills/ux-companion/references/design-questions.md` — under the router because it
+belongs to the family rather than to any one member.
+
+Path resolution is kept deliberately dumb: skills read the sibling relative path
+`../ux-companion/references/design-questions.md`, and fall back to a Glob if it does not
+resolve. No shell, so it works in every host.
+
+**Upgrade trigger, revised:** add a `references/` file when content is shared by more than one
+skill, or when a `SKILL.md` passes ~300 lines.
 
 ### Shared repo files the skills read and write
 
@@ -73,8 +85,13 @@ the knowledge from the first instead of a blank page.
    decision`.
 2. **Records decisions, does not invent them.** Nothing is written as a decision unless the
    user confirmed it. Unresolved items go to Open questions.
-3. **One question at a time.** Stop when the answer is clear enough, not after a fixed count.
+3. **Reason first, ask last.** Reason the answer out from context; research it where a
+   published finding would sharpen it; state an assumption where neither settles it; ask only
+   for what the user alone can supply. Those surviving questions are asked one at a time,
+   stopping when the answer is clear enough rather than after a fixed count.
 4. **Existing context first.** Read `.ux/` before asking what is already written down.
+5. **Both lenses.** A consumer is a person operating an interface or an agent calling a tool,
+   and most products have both. Apply both unless the consumer is clearly one.
 
 ## Skill contracts
 
@@ -160,11 +177,18 @@ Three phases, in order:
    Anything larger must be justified against the brief; unjustified scope goes to
    **Out of scope** with the reason it was cut.
 2. **Spec.** Flows, entry points, placement in the existing navigation, states, copy, the
-   simplest alternative considered, out of scope.
-3. **Pre-build heuristic check.** The subset of the family's criteria that is meaningful
-   without a UI: Clarity, Efficiency, Error prevention, Empty state, Trust/confidence, Data
-   safety, Cognitive load. Visual criteria (Affordance, Visual hierarchy, Loading states)
-   wait for `ux-review` on a real UI.
+   simplest alternative considered, out of scope, product opportunities (Theme K).
+3. **Pre-build heuristic check.** Themes B–J from
+   `.agents/skills/ux-companion/references/design-questions.md`, each applied through both the
+   Human lens and the Agent lens. Theme A was settled by the brief. Visual criteria —
+   affordance rendering, visual hierarchy, loading-state styling — wait for `ux-review` on a
+   real UI.
+
+Theme K is the family's only generative step: it originates adjacent value rather than
+extracting what was stated. It sits in the spec rather than the brief because it needs both
+the problem (Theme A, from the brief) and the flow and consumer (Theme B, decided here). It is
+explicitly not a way to reopen Phase 1's cuts — an opportunity must extend something already
+decided, and anything needing its own problem statement is a separate idea.
 
 The heuristic check is a **phase of this skill, not a separate skill**. The ideation doc's MVP
 list implies a fourth skill; a skill that only ever runs on this skill's output, at one point
@@ -191,11 +215,12 @@ Ends by naming the handoff: `/to-spec` or `/to-tickets`. It does not write to Ji
 1. **Vague idea** → router picks `ux-discover`; brief has a real problem statement, not a restatement of the idea.
 2. **Feature that is too large** → `ux-design-spec` cuts something real into Out of scope, with a reason.
 3. **"Who is this for?" with no `.ux/`** → router picks `ux-user-context`; unknowns stay marked `Unknown`.
-4. **Developer quick-check** → a short risk list, no full spec, no interview.
+4. **Developer quick-check** → a short risk list, no full spec, no file.
 5. **Existing `.ux/` context** → skills read it and do not re-ask what is already written down.
 
 Pass criteria across all five: nothing is invented, every key decision is Evidence or flagged
-Assumption, and Out of scope contains real cuts rather than things nobody proposed.
+Assumption, Out of scope contains real cuts rather than things nobody proposed, and nothing is
+asked that the request, the repo or `.ux/` already answers.
 
 ## Risks
 
@@ -215,4 +240,14 @@ Assumption, and Out of scope contains real cuts rather than things nobody propos
 | Direct Jira work-item creation | `/to-spec` and `/to-tickets` prove insufficient. |
 | Shared product-level `USERS.md` | A second repo in the same product needs the same personas. |
 | Generated or crawled surface map | The hand-written map is measurably the bottleneck. |
-| `references/` splits, eval harness | A `SKILL.md` passes ~300 lines; golden scenarios get run often enough that by-hand hurts. |
+| Eval harness | Golden scenarios get run often enough that by hand hurts. |
+| Merging the `jussi-exploration` branch structurally | Jussi has weighed in. See [`reconciliation.md`](reconciliation.md) — the strict improvements are already folded in; the structural call is open. |
+
+## Reconciled with `jussi-exploration`
+
+A parallel independent build of the same ideation doc exists on `origin/jussi-exploration`.
+The strict improvements from it are folded into `main` — themes A–K as the shared criteria
+asset, reason-first in place of interview-first, the premise-mismatch rule, research grounding,
+and the Human/Agent lens throughout. The structural question (one skill or five) is deliberately
+left open for Jussi. Nothing on his branch was changed or deleted. Full comparison in
+[`reconciliation.md`](reconciliation.md).

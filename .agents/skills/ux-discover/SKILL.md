@@ -1,7 +1,7 @@
 ---
 name: ux-discover
-description: Turns a vague idea or feature request into a Problem Brief by interviewing the user one question at a time. Use when someone has an idea, a feature request, a Jira ticket or a Confluence page but no clear problem statement — "we should build X", "can you help me scope this", "is this worth building", "write up this feature request". Also provides probe questions during a live user interview. Do NOT use when a Problem Brief already exists and the user wants a design direction (use ux-design-spec), or when a UI already exists and needs reviewing (use ux-review).
-allowed-tools: Read, Write, Glob, Grep
+description: Turns a vague idea or feature request into a Problem Brief by reasoning the answers out from context first and asking only what the user alone can supply. Use when someone has an idea, a feature request, a Jira ticket or a Confluence page but no clear problem statement — "we should build X", "can you help me scope this", "is this worth building", "write up this feature request". Also provides probe questions during a live user interview. Do NOT use when a Problem Brief already exists and the user wants a design direction (use ux-design-spec), or when a UI already exists and needs reviewing (use ux-review).
+allowed-tools: Read, Write, Glob, Grep, WebSearch
 ---
 
 # UX Discover
@@ -18,14 +18,16 @@ A brief is not a solution. If the user hands you a solution ("add a dropdown to 
 page"), your job is to find the problem behind it. Write the solution down under
 `Solutions already proposed` so it is not lost, then ask what it was meant to fix.
 
-## Before asking anything
+## Before anything else
 
 Read what already exists, so you never ask for something the repo already states:
 
 1. `.ux/USERS.md` — who the users are
 2. `.ux/surface-map.md` — the product's areas, navigation and terms
 3. `.ux/briefs/` — existing briefs, in case this overlaps one
-4. If the user named a Jira ticket or Confluence page, read it
+4. `../ux-companion/references/design-questions.md` — the shared themes. If that relative path
+   does not resolve, Glob for `**/ux-companion/references/design-questions.md`.
+5. If the user named a Jira ticket or Confluence page, read it
 
 Say what you found in one line: "Read `USERS.md` — I have your three personas, so I'll skip
 the who-is-this-for questions." If `.ux/` does not exist, say nothing and carry on.
@@ -41,17 +43,28 @@ Infer from how the user asked. Announce the mode in one sentence and let them re
 | **Developer** | "I'm about to build X, am I missing something?" | **No brief.** A short risk list — see Developer mode below. |
 | **Live interview** | "I'm interviewing a user", "help me during this call" | **No brief.** Probe questions in real time — see Live interview mode below. |
 
-## The interview
+## How to reach the answers
 
-**One question at a time.** Never present a numbered list of questions — ask one, read the
-answer, let it choose the next question. This is the whole point of the skill; a questionnaire
-gets questionnaire answers.
+**Reason first; ask last.** A user who is only answering what is asked never gets the benefit
+of reasoning done on their behalf — they end up with the gaps they started with, itemised. So
+for each area below, work down this order and stop at the first step that settles it:
 
-Cover these areas, in roughly this order. Skip any the user has already answered, in their
-request or in `.ux/`:
+1. **Reason it out** from the request, the repo, and `.ux/`. Most areas are answerable this
+   way; the user already told you more than they think they did.
+2. **Research it**, where a published finding would sharpen or correct the answer — see
+   *Grounding in research* in `../ux-companion/references/design-questions.md`. Carry the
+   citation into the brief. A finding about users in general never overrides what the user
+   knows about *their* users; where they diverge, state both.
+3. **Assume it**, plainly, tagged `**Assumption:**`, where no source settles it but the brief
+   needs an answer to continue.
+4. **Ask**, for what only the user can supply: their own users' behaviour, their constraints,
+   their priorities, their numbers.
 
-1. **The pain.** What goes wrong today? Ask for a specific recent instance, not a
-   generalisation. "When did this last happen?" beats "how often does this happen?"
+Theme A in `../ux-companion/references/design-questions.md` is the reasoning target for this
+skill — reason through its **Human lens and Agent lens** both, unless the consumer is clearly
+only one. Cover these areas, skipping any already answered in the request or in `.ux/`:
+
+1. **The pain.** What goes wrong today? A specific recent instance, not a generalisation.
 2. **Who has it.** Which people or systems hit this, and how often. Separate "who complained"
    from "who is affected" — they are frequently different.
 3. **What they do today instead.** Every real problem has a workaround. If nobody has a
@@ -63,13 +76,27 @@ request or in `.ux/`:
 6. **Success.** How will we know it is solved? Push for something observable. "Users are
    happier" is not a success criterion; "install support tickets drop" is.
 
-**Stop when the problem is clear enough to design against — not after a fixed number of
-questions.** Four sharp answers beat twelve vague ones. Before you stop, state what you
-believe the problem is in one sentence and ask the user to correct it. Their correction is
-usually the most valuable sentence in the interview.
+## What survives to be asked
+
+**One question at a time.** Never present a numbered list — ask one, read the answer, let it
+choose the next. A questionnaire gets questionnaire answers.
+
+The questions that survive steps 1–3 are few, and they are the ones worth the user's
+attention. Asking them one at a time is the last step of the method, not the method itself.
+
+**Stop when the problem is clear enough to design against.** Four sharp answers beat twelve
+vague ones. Before stopping, state what you believe the problem is in one sentence and ask the
+user to correct it. Their correction is usually the most valuable sentence in the exchange.
 
 If the user does not know an answer, that is a finding, not a failure. Write it as an
 assumption or an open question and move on. Do not stall, and do not fill the gap yourself.
+
+**Premise mismatch.** When reasoning reveals that the idea's own premise may not hold — the
+pain is already solved by something in the repo, the named consumer is not the one affected,
+the workaround is cheaper than the fix — **state the assumption and escalate it**, never one
+or the other. Writing it quietly into `Assumptions to validate` buries the finding; raising it
+without recording it loses it when the conversation ends. Do both: record it, and say it out
+loud when you present the brief.
 
 ## Evidence or Assumption, never neither
 
@@ -139,8 +166,9 @@ assumptions need validating before anyone designs anything.
 
 ## Developer mode
 
-No brief, no interview, no file. The user is about to build something and wants a sanity
-check. Ask at most two questions, then return a short risk list:
+No brief, no file. The user is about to build something and wants a sanity check. Reason the
+answers out from the repo; ask at most two questions, and only for what the repo cannot tell
+you. Then return a short risk list:
 
 - What is the smallest version that solves this?
 - Which assumption, if wrong, wastes the most work?
@@ -176,4 +204,6 @@ After the call, offer to turn the notes into a brief.
 - Do not write a decision the user did not confirm. Unresolved goes to Open questions.
 - Do not invent evidence, personas, metrics, or quotes. Ever.
 - Do not ask about something `.ux/` already answers.
-- Do not keep interviewing once the problem is clear.
+- Do not ask what you could reason out. Reserve the user's attention for what only they know.
+- Do not keep asking once the problem is clear.
+- Do not present research as settled fact about *this* user's users.
