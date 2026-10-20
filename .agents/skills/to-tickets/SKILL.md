@@ -8,6 +8,15 @@ allowed-tools: Read, Write, Glob, Grep, mcp__atlassian__jira_get_all_projects, m
 
 Follow these directives when turning a finished design spec into real Jira tickets.
 
+**Artefact root.** Resolve it per `../ux-companion/references/artefact-store.md` — Glob for
+`**/ux-companion/references/artefact-store.md` if that path does not resolve — and state it in
+one line before reading or writing anything. Then **substitute it for the literal `.ux/`
+prefix in every path below** — they are written as `.ux/…` shorthand, and once a non-default root
+is resolved, touching a path that still begins `.ux/` is a bug. Any path written *into* an
+artefact or a ticket is the resolved path, never `.ux/` — a reader in Jira cannot resolve
+shorthand. `.ux/jira-project.md` is the one exception: like `.ux/config.md` it is configuration,
+so it stays literal and does not move with the root.
+
 This skill is independently invocable. It is not a phase of `ux-design-spec` and never runs
 automatically when a spec is written — ticketing is a separate decision on its own schedule,
 possibly in a different session, possibly never.
@@ -92,10 +101,12 @@ For each proposed ticket, draft real field values from the spec:
   per-step ticket.
 - **Description** — assembled from the relevant spec sections: `Problem`, the relevant part of
   `Flow`, `Entry points`, `Fit with the existing product`, `States`, `Copy`, and any bearing
-  `Assumption:` lines. Always end with `Spec: .ux/specs/<feature>.md`, plus `Brief:
+  `Assumption:` lines. Always end with `Spec: <resolved path to the spec>`, plus `Brief:
   <path>` (carried from the spec's own `**Brief:**` header line) and `Research: <path>` for any
   `.ux/research/<topic>.md` the spec's Assumptions cite as Evidence. A ticket that only points
   at the spec loses the trail back to why the work was proposed in the first place.
+  **These are resolved paths**, written for someone reading Jira who cannot resolve `.ux/`
+  shorthand — if the root is `docs/ux/`, the ticket says `docs/ux/specs/<feature>.md`.
 - **Check Evidence for Theme M before copying it in.** If the `Problem` or `Assumptions` text
   carries a named person, a direct quote, or another identifying detail, flag it — per Theme M
   (Privacy & data handling), a Jira ticket's audience is often wider than the interview or

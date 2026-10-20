@@ -8,6 +8,13 @@ allowed-tools: Read, Write, Glob, Grep, WebSearch
 
 Follow these directives when turning an idea into a Problem Brief.
 
+**Artefact root.** Resolve it per `../ux-companion/references/artefact-store.md` — Glob for
+`**/ux-companion/references/artefact-store.md` if that path does not resolve — and state it in
+one line before reading or writing anything. Then **substitute it for the literal `.ux/`
+prefix in every path below** — they are written as `.ux/…` shorthand, and once a non-default root
+is resolved, touching a path that still begins `.ux/` is a bug. Any path written *into* an
+artefact is the resolved path, never `.ux/`.
+
 ## What this produces
 
 A **Problem Brief** at `.ux/briefs/<feature>.md` — a short document stating the problem, who
@@ -32,7 +39,10 @@ Read what already exists, so you never ask for something the repo already states
 6. If the user named a Jira ticket or Confluence page, read it
 
 Say what you found in one line: "Read `USERS.md` — I have your three personas, so I'll skip
-the who-is-this-for questions." If `.ux/` does not exist, say nothing and carry on.
+the who-is-this-for questions." If no config exists and the default `.ux/` is simply not there
+yet, say nothing and carry on — that is a first run, not a problem. If a config names a root and
+that root is missing, **say so**: a configured location that is not there is a broken setup, not
+an empty one.
 
 ## Pick the mode
 

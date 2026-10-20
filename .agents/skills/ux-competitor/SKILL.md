@@ -9,6 +9,13 @@ allowed-tools: Read, Write, Glob, Grep, WebSearch
 Follow these directives when building or refreshing the landscape
 of products solving the same jobs as this one.
 
+**Artefact root.** Resolve it per `../ux-companion/references/artefact-store.md` — Glob for
+`**/ux-companion/references/artefact-store.md` if that path does not resolve — and state it in
+one line before reading or writing anything. Then **substitute it for the literal `.ux/`
+prefix in every path below** — they are written as `.ux/…` shorthand, and once a non-default root
+is resolved, touching a path that still begins `.ux/` is a bug. Any path written *into* an
+artefact is the resolved path, never `.ux/`.
+
 **Why this exists.** `ux-concepts` Phase 1 sweeps prior art for the decision in front of you,
 and then that knowledge evaporates — so the next decision sweeps again, from zero, and nobody
 ever notices the competitor who changed their whole model in between. A landscape is the part
@@ -182,7 +189,8 @@ finding that this cannot currently be answered.>
 <Per entry: what is different now, and when it changed. Empty on a first run.>
 ```
 
-`.ux/competitors/<product>.md`:
+`.ux/competitors/<product>.md`, one per product worth the depth. Create `.ux/competitors/` if
+needed:
 
 ```markdown
 # <Product>

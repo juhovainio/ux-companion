@@ -20,8 +20,11 @@ ux-companion (router)
       └─ ux-prototype      can I see it?             → .ux/prototypes/<feature>.html
                                  │
                                  ├─→ ux-review
-                                 └─→ to-tickets (optional, own schedule)
+                                 ├─→ to-tickets (optional, own schedule)
+                                 └─→ ux-publish (optional, own schedule)
 ```
+
+`.ux/` is the **default** location, not a fixed one — see [Where artefacts live](#where-artefacts-live).
 
 `ux-evidence` and `ux-competitor` are **standing**, not per-feature: a log and a landscape that
 every later feature reads and every later feature adds to.
@@ -127,33 +130,71 @@ Where that lands:
 | A spec, and someone who needs to see it to react to it | `ux-prototype` |
 | "I'm about to build X, am I missing something?" | `ux-design-spec` — developer mode, returns a risk list |
 | A finished spec, ready to file as Jira tickets | `to-tickets` |
+| An artefact people outside the repo need to read | `ux-publish` |
 | A built UI | `ux-review` — different family |
+
+## Where artefacts live
+
+By default, `.ux/` in the repo you are working in. Nothing to configure, and for most teams
+that is the right answer — the artefacts sit next to the code they describe, and they are
+diffable and reviewable like everything else.
+
+When they belong somewhere else — a docs folder, a separate docs repo, anywhere not next to the
+code — set a root once, in `.ux/config.md`:
+
+```markdown
+# UX artefact store
+
+**Root:** docs/ux/
+```
+
+Every skill honours it. `.ux/config.md` itself always stays put, so the settings that point at
+the root never move with it. Two rules worth knowing:
+
+- **The layout under the root is fixed** — `briefs/`, `specs/`, `USERS.md` and the rest keep
+  their names, because artefacts cross-link each other relatively.
+- **No silent fallback.** If the configured root cannot be written, a skill stops and says so
+  rather than quietly using `.ux/` — half a practice in each of two places is the one failure
+  here that would really cost you.
+
+A root outside the repo works, but it will not be versioned with the code, and some agents
+restrict writes to the working directory.
+
+**Publishing** is separate, and one-way: `ux-publish` copies artefacts to Confluence for people
+who will never clone the repo. The markdown stays the source of truth — nothing is read back,
+and nothing is synced in reverse. Confluence is the only target built.
 
 ## What lands in your repo
 
 ```
-.ux/
+<root>/                   # `.ux/` by default; see above
   USERS.md                # personas / JTBD, context of use, skill level
   PRINCIPLES.md           # the product's design stance, as trade-offs
   LANDSCAPE.md            # the competition set, table stakes, where we differ, last verified
   surface-map.md          # product areas, navigation, patterns, vocabulary
-  jira-project.md         # the Jira project this repo files tickets to (to-tickets)
   briefs/<feature>.md     # Problem Briefs
   competitors/<product>.md # one teardown each, by flow rather than feature matrix
   concepts/<feature>.md   # directions explored, one chosen, the rest and what they were better at
   evidence/INDEX.md       # the standing evidence log, and what it cannot speak for
   evidence/<batch>.md     # citable atoms — one observation, one source, one date
-  specs/<feature>.md      # Design specs (gains "## Jira tickets" once filed)
+  specs/<feature>.md      # Design specs (gains "## Jira tickets" once filed,
+                          #   and "## Published" once published)
   prototypes/<feature>.*  # one self-contained HTML file, or an exact session transcript
   research/<topic>.md     # research plans, discussion guides, insights
+
+.ux/                      # always here, even when the root moves — settings, not artefacts
+  config.md               # the artefact root, and the publish target if there is one
+  jira-project.md         # the Jira project this repo files tickets to (to-tickets)
 ```
 
-Markdown in the repo, so it is diffable, reviewable, and readable by the next skill. The
-second feature starts with what the first one learned instead of a blank page.
+Markdown, so it is diffable, reviewable, and readable by the next skill. The second feature
+starts with what the first one learned instead of a blank page.
 
 ## Not built yet
 
-Deliberately absent: Confluence publishing and a generated or crawled surface map. Direct Jira
+Deliberately absent: a generated or crawled surface map, and publishing to anything other than
+Confluence — GitHub wiki and the rest are not built. Nothing is ever read back from a published
+page; this family does not do bidirectional sync and is not meant to grow into one. Direct Jira
 ticket creation is handled by `to-tickets`, behind a mandatory dry-run confirmation gate. See
 [`plans/poc-plan.md`](plans/poc-plan.md) for what the remaining gaps are waiting on.
 
@@ -167,6 +208,7 @@ or win/loss, `ux-research` does not do surveys or journey maps.
 .agents/skills/<skill>/SKILL.md   the skills — one self-contained file each
 .agents/skills/ux-companion/
   references/design-questions.md  Themes A–M — the shared criteria, read by five skills
+  references/artefact-store.md    where artefacts live — read by every skill that writes one
 plans/poc-plan.md                 decisions, contracts, build order, deferred work
 plans/reconciliation.md           comparison with the parallel jussi-exploration branch
 evals/golden-scenarios.md         eight scenarios, run by hand

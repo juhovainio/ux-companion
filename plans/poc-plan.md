@@ -25,7 +25,7 @@ they fix. The five-skill POC shape is what the Decisions table and Build order d
 |---|---|---|---|
 | 1 | Packaging | Plain `.agents/skills/` layout | Portable to Claude Code, Codex, Cursor, Rovo Dev with no manifest. No install step to demo. |
 | 2 | POC scope | Router, `ux-user-context`, `ux-research`, `ux-discover`, `ux-design-spec` | Per the POC scope column in the ideation doc table. `ux-competitor` and `ux-evidence` are out. |
-| 3 | Output destination | Repo markdown under `.ux/` only | Diffable, no external dependency, and the next skill can read it back. Confluence publishing can be its own skill later. |
+| 3 | Output destination | ~~Repo markdown under `.ux/` only~~ Superseded — the root is configurable via `.ux/config.md`, defaulting to `.ux/`; Confluence is a one-way publish target via `ux-publish` | Diffable, no external dependency, and the next skill can read it back — all still true, since local markdown stayed the source of truth. The "its own skill later" prediction held: see *The artefact store* below. |
 | 4 | Surface map origin | Template, with an agent-assisted first draft the user confirms | No crawling infrastructure; works on CLIs and web apps alike. The user owns the truth. |
 | 5 | `USERS.md` location | Per repo, at `.ux/USERS.md` | Zero config. Duplication across repos of one product is accepted for the POC. |
 | 6 | Jira handoff | ~~Hand off to `/to-spec` and `/to-tickets`~~ Superseded — `to-tickets` now writes real Jira tickets behind a mandatory dry-run confirmation gate | Originally deferred so nothing could write junk to a live project on stage. Built once the confirmation gate made that risk acceptable; see `to-tickets`'s SKILL.md. |
@@ -243,7 +243,7 @@ asked that the request, the repo or `.ux/` already answers.
 |---|---|
 | ~~`ux-evidence`~~ | Done — built after the POC landed. See *The standing pair* below. |
 | ~~`ux-competitor` as a standing landscape~~ | Done — built after the POC landed. `ux-concepts` Phase 1 now reads `.ux/LANDSCAPE.md` instead of sweeping from zero. |
-| Confluence publishing | Someone outside a repo needs to read the output. |
+| ~~Confluence publishing~~ | Done — `ux-publish`, one-way, behind a confirmation gate. See *The artefact store* below. |
 | ~~Direct Jira work-item creation~~ | Done — see `to-tickets`. |
 | Shared product-level `USERS.md` | A second repo in the same product needs the same personas. |
 | Generated or crawled surface map | The hand-written map is measurably the bottleneck. |
@@ -346,6 +346,53 @@ differentiators carry opposite instructions, and conflating them is the feature-
 **Out of scope for both, stated in the skills:** no API pulls, crawling, scraping or
 screenshotting; no sentiment scoring or automated clustering; no pricing, market share, win/loss
 or battlecards. Those are competitive intelligence and tooling problems, not design ones.
+
+## The artefact store
+
+Decision 3 fixed artefacts at `.ux/` in the consuming repo. That is right for a team whose
+product docs belong next to the code, and wrong for one whose don't — and the only escape was
+to move the files by hand, after which every skill's "read `.ux/` first" step quietly stopped
+finding anything.
+
+The root is now configurable in `.ux/config.md`, defaulting to `.ux/`. Three decisions shaped
+how:
+
+**Local markdown stays the source of truth, always.** Confluence and the like are *publish
+targets* — one-way copies for people who will never clone the repo. The alternative, making the
+remote store authoritative, would have required every skill to carry Confluence tools, broken
+offline use, and turned cross-links into URLs — trading away the property the README leads with
+for a destination most teams will not pick. This also keeps the door shut on bidirectional sync,
+which is a different product.
+
+**`.ux/` became *logical*, not literal.** Rather than rewrite 126 `.ux/…` mentions across eleven
+files to `<root>/…` — which would also have put `<root>/` placeholders in front of every user
+inside emitted templates — `.ux/` is now shorthand for the configured root, resolved once per
+run via `references/artefact-store.md`.
+
+The honest risk in that: one instruction has to hold against many literal strings in the same
+document, and a write to a literal `.ux/` would *succeed*, silently creating a second artefact
+tree. Three things contain it. Skills **state the resolved root out loud** before using it, so
+it becomes a fact in play rather than a rule to re-apply at path 94 of 126 — and the user sees
+it and can correct it. Paths written *into* an artefact are resolved, so nothing downstream
+(a spec's `**Brief:**` header, a Jira description) inherits shorthand. And there is **no silent
+fallback**: an unreachable root stops the skill rather than redirecting to `.ux/`. If drift
+still shows up, the upgrade path is a mechanical rewrite of the 35 write-destination sites
+only — reads are self-correcting, since a miss finds nothing and says so.
+
+**Configuration does not move with the artefacts.** `.ux/config.md` and `.ux/jira-project.md`
+always resolve literally. Resolving the config through the root it defines is an infinite
+regress, and it keeps a clean split: `.ux/` holds this family's settings, the root holds its
+output.
+
+`ux-publish` owns publishing and nothing else. It does *not* own the root config — that follows
+the `to-tickets` precedent, where `.ux/jira-project.md` belongs to the skill that needs it
+rather than to a configuration skill. Whichever skill is in front of the user when the question
+comes up writes the file, per the rules in the shared reference. Routing a one-time three-field
+answer through a skill invocation would be heavier than the answer.
+
+**Not built:** GitHub wiki or any other publish target, reading changes back from a published
+page, scheduled or bidirectional sync, and publishing prototypes (an interactive HTML file is
+not a page).
 
 ## Reconciled with `jussi-exploration`
 
