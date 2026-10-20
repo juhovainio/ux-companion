@@ -9,6 +9,13 @@ allowed-tools: Read, Write, Glob, Grep, WebSearch
 Follow these directives when exploring the solution space for a
 problem that is already understood.
 
+**Artefact root.** Resolve it per `../ux-companion/references/artefact-store.md` — Glob for
+`**/ux-companion/references/artefact-store.md` if that path does not resolve — and state it in
+one line before reading or writing anything. Then **substitute it for the literal `.ux/`
+prefix in every path below** — they are written as `.ux/…` shorthand, and once a non-default root
+is resolved, touching a path that still begins `.ux/` is a bug. Any path written *into* an
+artefact is the resolved path, never `.ux/`.
+
 **Why this exists.** The rest of this family reduces: it finds the problem, cuts the scope,
 checks the result. Reduction applied to the first idea anyone mentioned produces a competent
 version of that idea, and nothing else. This skill is the one place where the work gets wider
@@ -143,7 +150,7 @@ needed.
 # Concepts: <title>
 
 **Status:** Draft · **Date:** <YYYY-MM-DD>
-**Brief:** [.ux/briefs/<feature>.md](../briefs/<feature>.md)
+**Brief:** [<feature>.md](../briefs/<feature>.md)
 
 ## Problem being solved
 <One sentence, carried from the brief. Plus any reframe considered, and whether it was adopted.>

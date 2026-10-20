@@ -11,7 +11,8 @@ ROOT = Path(__file__).resolve().parent.parent
 SKILLS = sorted((ROOT / ".agents/skills").glob("*/SKILL.md"))
 KNOWN = {
     "ux-companion", "ux-discover", "ux-user-context", "ux-research", "ux-evidence",
-    "ux-competitor", "ux-concepts", "ux-design-spec", "ux-prototype", "to-tickets",
+    "ux-competitor", "ux-concepts", "ux-design-spec", "ux-prototype", "ux-publish",
+    "to-tickets",
 }
 
 
@@ -57,7 +58,9 @@ def check(path):
             "ever dispatched by another skill"
         )
     for tool in re.split(r",\s*", fm.get("allowed-tools", "")):
-        if tool and not re.fullmatch(r"[A-Z][A-Za-z]*|mcp__[a-z][a-z0-9_]*", tool):
+        # MCP tool names are host-specific and frequently camelCase
+        # (mcp__plugin_atlassian_atlassian__createConfluenceContent).
+        if tool and not re.fullmatch(r"[A-Z][A-Za-z]*|mcp__[a-z][A-Za-z0-9_]*", tool):
             yield (
                 f"allowed-tools entry {tool!r} is not a bare CamelCase tool name "
                 "(e.g. 'Read') or an MCP-qualified name (e.g. 'mcp__server__tool')"

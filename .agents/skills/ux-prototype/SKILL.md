@@ -9,6 +9,13 @@ allowed-tools: Read, Write, Glob, Grep
 Follow these directives when turning a design spec into
 something someone can react to.
 
+**Artefact root.** Resolve it per `../ux-companion/references/artefact-store.md` — Glob for
+`**/ux-companion/references/artefact-store.md` if that path does not resolve — and state it in
+one line before reading or writing anything. Then **substitute it for the literal `.ux/`
+prefix in every path below** — they are written as `.ux/…` shorthand, and once a non-default root
+is resolved, touching a path that still begins `.ux/` is a bug. Any path written *into* an
+artefact is the resolved path, never `.ux/`.
+
 **Why this exists.** Nobody has ever decided they loved a product by reading a specification.
 Agreement on a document is agreement on a document — it survives exactly until the first
 person uses the thing. A prototype moves the disagreement forward by a month, while changing it

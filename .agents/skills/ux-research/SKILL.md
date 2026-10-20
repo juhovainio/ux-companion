@@ -9,6 +9,13 @@ allowed-tools: Read, Write, Glob, Grep, WebSearch
 Follow these directives when planning research or synthesising
 notes.
 
+**Artefact root.** Resolve it per `../ux-companion/references/artefact-store.md` — Glob for
+`**/ux-companion/references/artefact-store.md` if that path does not resolve — and state it in
+one line before reading or writing anything. Then **substitute it for the literal `.ux/`
+prefix in every path below** — they are written as `.ux/…` shorthand, and once a non-default root
+is resolved, touching a path that still begins `.ux/` is a bug. Any path written *into* an
+artefact is the resolved path, never `.ux/`.
+
 ## Scope
 
 This skill does three things:

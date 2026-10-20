@@ -1,6 +1,6 @@
 ---
 name: ux-companion
-description: Entry point for product and UX work before or during building — reads `.ux/` context and routes internally to the right companion skill, so the user never needs to know any of their names. Use when someone asks "help me design…", "is this worth building?", "who is this for?", "do we have personas", "can you scope this feature", "how should this work", "write the spec", "this feels too big", "what are our options" or "is there a better way to do this", "can I see it", "make me a prototype", "how do we find out if this is true", "help me plan some research", "write me a discussion guide", "what do we actually know about this", "what's in these support tickets", "how do other products solve this", "who are our competitors", "I'm about to build X, am I missing something?", or hands over a vague idea, feature request, Jira ticket, Confluence page, or a pile of tickets, reviews or transcripts with no clear problem statement. Do NOT use when a built UI needs reviewing (use ux-review).
+description: Entry point for product and UX work before or during building — reads `.ux/` context and routes internally to the right companion skill, so the user never needs to know any of their names. Use when someone asks "help me design…", "is this worth building?", "who is this for?", "do we have personas", "can you scope this feature", "how should this work", "write the spec", "this feels too big", "what are our options" or "is there a better way to do this", "can I see it", "make me a prototype", "how do we find out if this is true", "help me plan some research", "write me a discussion guide", "what do we actually know about this", "what's in these support tickets", "how do other products solve this", "who are our competitors", "publish this to Confluence", "where should these docs live", "I'm about to build X, am I missing something?", or hands over a vague idea, feature request, Jira ticket, Confluence page, or a pile of tickets, reviews or transcripts with no clear problem statement. Do NOT use when a built UI needs reviewing (use ux-review).
 allowed-tools: Read, Glob, Grep, Skill
 ---
 
@@ -8,6 +8,13 @@ allowed-tools: Read, Glob, Grep, Skill
 
 You are a router. Your job is to pick the right skill and hand
 over — **not to do the downstream work yourself.**
+
+**Artefact root.** Resolve it per `references/artefact-store.md` before reading context, and
+state it in one line when it is not the default. Then **substitute it for the literal `.ux/`
+prefix in every path below** — they are written as `.ux/…` shorthand, and once a non-default root
+is resolved, reading a path that still begins `.ux/` is a bug. Getting this wrong here is the
+most expensive place to do so: you read ten paths to pick a route, you write nothing that would
+leave a trace, and a root resolved wrongly sends every route after it to the wrong skill.
 
 The family covers the path from "I have an idea" to "here is a prototype of the direction we
 chose, and the reasons we rejected the others". It sits upstream of `ux-review`, which reviews
@@ -62,6 +69,8 @@ design this" with no brief needs `ux-discover` first, whatever they asked for.
 | "This feels too big" / "are we overengineering this?" | `ux-design-spec` — the overengineering gate is its first phase |
 | The user is in a live user interview right now | `ux-discover`, live interview mode |
 | A spec exists and the user wants it filed as Jira tickets | `to-tickets` |
+| An artefact needs to reach people who will not clone the repo — "publish this", "put it on Confluence" | `ux-publish` |
+| "Where should these live?", "move our docs", or artefacts should not be in this repo | No skill needed — set the root per `references/artefact-store.md`, in whichever skill is in hand |
 | A UI already exists and needs evaluating | Out of this family — point at `ux-review` and stop |
 
 **The tiebreak.** "Design this" with a brief and no concepts is the ambiguous case, and it is
@@ -108,6 +117,7 @@ it.
 | `ux-concepts` | `ux-design-spec` on the chosen direction — once the user has chosen it |
 | `ux-design-spec` | `ux-prototype` to make it touchable, and `to-tickets` to file it in Jira — independent next steps, each on its own schedule |
 | `ux-prototype` | `ux-review` on the prototype, then back to `ux-design-spec` with what it revealed |
+| Any artefact, once it is agreed | `ux-publish`, if people outside the repo need to read it — optional, on its own schedule |
 
 ## Family conventions
 
@@ -124,7 +134,14 @@ on, so they live here rather than only downstream:
   through `ux-concepts` rather than straight to `ux-design-spec` — a team that goes from brief
   straight to spec has chosen a direction without noticing it chose.
 
-## Shared criteria
+## Shared references
+
+Two assets live under this skill because they belong to the family rather than to any one
+member. Edit them there — restated inside a skill, either becomes a second copy that drifts.
+
+`references/artefact-store.md` holds where artefacts live: how the root resolves, that `.ux/` is
+shorthand for it, and the publish contract. Every skill that reads or writes an artefact reads
+this first.
 
 `references/design-questions.md` holds Themes A–L, the family's single criteria asset.
 `ux-discover` reasons through Theme A, `ux-concepts` works the solution space between A and B,
@@ -136,12 +153,12 @@ becomes a second copy that drifts.
 ## Scope
 
 In this family: `ux-discover`, `ux-user-context`, `ux-research`, `ux-evidence`,
-`ux-competitor`, `ux-concepts`, `ux-design-spec`, `ux-prototype`, `to-tickets`. Unlike the rest,
-`to-tickets` is also meant to be invoked directly — its own description says so, rather than
-marking itself internal.
+`ux-competitor`, `ux-concepts`, `ux-design-spec`, `ux-prototype`, `to-tickets`, `ux-publish`.
+Unlike the rest, `to-tickets` and `ux-publish` are also meant to be invoked directly — their own
+descriptions say so, rather than marking themselves internal.
 
-Not built, and the skills say so rather than improvising a thin version: Confluence publishing,
-and a generated or crawled surface map.
+Not built, and the skills say so rather than improvising a thin version: publishing to anything
+other than Confluence, and a generated or crawled surface map.
 
 ## Do not
 
