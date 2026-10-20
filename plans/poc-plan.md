@@ -1,4 +1,4 @@
-# UX Companion Cube — POC plan
+# UX Companion — POC plan
 
 Source: [AI Hackathon Ideation Doc](https://amd.atlassian.net/wiki/spaces/AIG/pages/2079603339/AI+Hackathon+Ideation+Doc)
 
