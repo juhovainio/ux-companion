@@ -1,4 +1,4 @@
-# UX Companion Cube
+# UX Companion
 
 A skill family for the part of product work that happens **before anything is built**: finding
 the real problem, knowing who it is for, and writing a design spec you can defend.
