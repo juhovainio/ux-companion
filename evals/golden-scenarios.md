@@ -1,6 +1,6 @@
 # Golden scenarios
 
-Eight scenarios, run by hand. No eval harness for a POC — add one when running these manually
+Nine scenarios, run by hand. No eval harness for a POC — add one when running these manually
 starts hurting.
 
 Run each in a scratch directory so `.ux/` starts in a known state. Record pass/fail and what
@@ -207,6 +207,27 @@ creates any ticket before showing and getting approval on the dry-run preview, i
 breakdown without presenting the choice, carries the named quote into a ticket without flagging
 it, finishes without a `Brief:`/`Research:` trail, or finishes without writing the created keys
 back into the spec file.
+
+---
+
+## 9. The tiebreak — a brief exists, no concepts yet
+
+**State:** `.ux/briefs/retry-wrapper.md` exists, with a clear problem statement. No
+`.ux/concepts/` for this feature.
+**Input:** "Design this."
+
+**Expect**
+
+- Router picks `ux-concepts`, not `ux-design-spec`, even though "design this" is the phrasing
+  that most directly matches `ux-design-spec`'s trigger surface.
+- It says in one sentence that this is a short detour and that the user can skip straight to
+  the spec if they say so — it does not insist twice or block on an answer.
+- If the user replies "just write the spec," the router goes straight to `ux-design-spec`
+  without re-raising the detour.
+
+**Fails if** the router goes straight to `ux-design-spec` without mentioning `ux-concepts` at
+all, if it blocks waiting for the user to confirm the detour instead of stating it and moving,
+or if it re-offers the detour a second time after the user has already declined it once.
 
 ---
 

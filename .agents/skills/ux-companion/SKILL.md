@@ -1,6 +1,6 @@
 ---
 name: ux-companion
-description: Entry point for product and UX work before or during building — reads `.ux/` context and routes internally to the right companion skill, so the user never needs to know any of their names. Use when someone asks "help me design…", "is this worth building?", "who is this for?", "do we have personas", "can you scope this feature", "how should this work", "write the spec", "this feels too big", "what are our options", "how else could we solve this", "is there a better way to do this", "can I see it", "make me a prototype", "how do we find out if this is true", "help me plan some research", "write me a discussion guide", "I'm about to build X, am I missing something?", or hands over a vague idea, feature request, Jira ticket or Confluence page with no clear problem statement. Do NOT use when a built UI needs reviewing (use ux-review).
+description: Entry point for product and UX work before or during building — reads `.ux/` context and routes internally to the right companion skill, so the user never needs to know any of their names. Use when someone asks "help me design…", "is this worth building?", "who is this for?", "do we have personas", "can you scope this feature", "how should this work", "write the spec", "this feels too big", "what are our options" or "is there a better way to do this", "can I see it", "make me a prototype", "how do we find out if this is true", "help me plan some research", "write me a discussion guide", "I'm about to build X, am I missing something?", or hands over a vague idea, feature request, Jira ticket or Confluence page with no clear problem statement. Do NOT use when a built UI needs reviewing (use ux-review).
 allowed-tools: Read, Glob, Grep, Skill
 ---
 
@@ -94,29 +94,18 @@ it.
 
 ## Family conventions
 
-Every skill here follows these. Hold them to it.
+Every skill here follows a fuller set of conventions than this (evidence tagging, smallest
+version first, both lenses, the floor-vs-ceiling split) — each enforces its own concretely, and
+`README.md` summarises the set for humans. The two below are the ones this router itself acts
+on, so they live here rather than only downstream:
 
-1. **Evidence or Assumption, never neither.** Each claim is tagged `**Evidence:**` with a
-   source or `**Assumption:**`, with `⚠️ drives a decision` on the load-bearing ones.
-2. **Records decisions, does not invent them.** Nothing is written as a decision unless the
-   user confirmed it. Unresolved goes to Open questions.
-3. **Reason first, ask last.** Work the answer out from context, research it where a published
-   finding would sharpen it, state an assumption where neither settles it — and reserve
-   questions for what only the user can supply. Those questions are then asked one at a time,
-   stopping when the answer is clear enough rather than after a fixed count.
-4. **Existing context first.** Read `.ux/` before asking what is already written down.
-5. **Smallest version first.** The design spec states the minimum that solves the problem;
-   anything larger is justified against the brief or cut.
-6. **Both lenses.** Every consumer is a person operating an interface or an agent calling a
-   tool, and most products have both. The shared themes in
-   `references/design-questions.md` carry a Human lens and an Agent lens on each theme — apply
-   both unless the consumer is clearly only one.
-7. **Diverge before converging, once.** The first idea anyone said is a candidate, never the
-   plan. `ux-concepts` is the one place the work gets wider; everything after it narrows. A
-   team that goes from brief straight to spec has chosen a direction without noticing it chose.
-8. **The floor is not the ceiling.** Themes B–J are satisfied by the absence of problems. Theme
-   L asks what is actually good here. A design that clears B–J and has no answer to L is
-   correct and forgettable — say so rather than passing it.
+- **Reason first, ask last.** Each skill works the answer out from context before asking — this
+  is why Step 2 allows at most one clarifying question, asked only when two routes would
+  produce genuinely different work.
+- **Diverge before converging, once.** `ux-concepts` is the one place the work gets wider;
+  everything after it narrows. This is why the tiebreak above sends an ambiguous "design this"
+  through `ux-concepts` rather than straight to `ux-design-spec` — a team that goes from brief
+  straight to spec has chosen a direction without noticing it chose.
 
 ## Shared criteria
 
