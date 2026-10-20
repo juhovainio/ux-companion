@@ -1,0 +1,218 @@
+# UX Companion Cube — POC plan
+
+Source: [AI Hackathon Ideation Doc](https://amd.atlassian.net/wiki/spaces/AIG/pages/2079603339/AI+Hackathon+Ideation+Doc)
+
+A skill family that covers the path from "I have an idea" to "I have a design spec I can
+defend." It sits upstream of the existing `ux-review` heuristic family, which reviews a UI
+that already exists.
+
+```
+ux-companion (router)
+      │
+      ├─ ux-user-context ──┐
+      ├─ ux-research ──────┤
+      ├─ ux-discover ──────┤──→ ux-design-spec ──→ /to-spec, /to-tickets
+      │                     │
+      └─────────────────────┘        (then, once built: ux-review)
+```
+
+## Decisions
+
+| # | Question | Decision | Why |
+|---|---|---|---|
+| 1 | Packaging | Plain `.agents/skills/` layout | Portable to Claude Code, Codex, Cursor, Rovo Dev with no manifest. No install step to demo. |
+| 2 | POC scope | Router, `ux-user-context`, `ux-research`, `ux-discover`, `ux-design-spec` | Per the POC scope column in the ideation doc table. `ux-competitor` and `ux-evidence` are out. |
+| 3 | Output destination | Repo markdown under `.ux/` only | Diffable, no external dependency, and the next skill can read it back. Confluence publishing can be its own skill later. |
+| 4 | Surface map origin | Template, with an agent-assisted first draft the user confirms | No crawling infrastructure; works on CLIs and web apps alike. The user owns the truth. |
+| 5 | `USERS.md` location | Per repo, at `.ux/USERS.md` | Zero config. Duplication across repos of one product is accepted for the POC. |
+| 6 | Jira handoff | Hand off to `/to-spec` and `/to-tickets` | No Jira write path to build, and nothing can write junk to a live project on stage. |
+
+### Drift noted in the source doc
+
+The "Hackathon MVP" section lists three skills (router, `ux-discover`, `ux-design-spec`);
+the skills table's POC scope column lists five, adding `ux-user-context` and `ux-research`.
+**The table is authoritative** — it is the more recent edit. The MVP section should be
+updated or deleted so the doc stops contradicting itself.
+
+## Architecture
+
+### One self-contained `SKILL.md` per skill
+
+No `references/`, no `scripts/`, no shared `templates/` directory. Templates and conventions
+are embedded in each `SKILL.md`.
+
+The existing `ux-review` family splits long content into `references/` and resolves the path
+at runtime with a `find $HOME/.claude/skills/...` shell fallback. That plumbing is worth it
+there because the content is genuinely long and the family is Claude Code only. Here it
+would buy duplication of roughly ten lines of shared convention in exchange for a path
+resolution step that Codex and Cursor handle differently. Not worth it.
+
+**Upgrade trigger:** split a skill into `references/` when its `SKILL.md` passes ~300 lines.
+
+### Shared repo files the skills read and write
+
+```
+.ux/
+  USERS.md              # personas / JTBD, context of use, skill level
+  surface-map.md        # product areas, navigation, key patterns and terms
+  briefs/<feature>.md   # Problem Briefs      (ux-discover)
+  specs/<feature>.md    # Design specs        (ux-design-spec)
+  research/<topic>.md   # plans, guides, insight summaries (ux-research)
+```
+
+`evidence/` from the source doc is omitted — `ux-evidence` is out of POC scope, so nothing
+would write it.
+
+Every skill reads `.ux/` before asking the user anything, so the second feature starts with
+the knowledge from the first instead of a blank page.
+
+### Conventions every skill follows
+
+1. **Evidence or Assumption, never neither.** Each claim is tagged `**Evidence:**` with a
+   source link or `**Assumption:**`. Assumptions that drive a decision carry `⚠️ drives a
+   decision`.
+2. **Records decisions, does not invent them.** Nothing is written as a decision unless the
+   user confirmed it. Unresolved items go to Open questions.
+3. **One question at a time.** Stop when the answer is clear enough, not after a fixed count.
+4. **Existing context first.** Read `.ux/` before asking what is already written down.
+
+## Skill contracts
+
+### `ux-companion` — router
+
+| | |
+|---|---|
+| Triggers | "Help me design…", "is this worth building?", "who is this for?", "I'm about to build X" |
+| Input | Free text |
+| Output | A route announcement, then the chosen sub-skill |
+
+Reads `.ux/` to see what already exists, asks at most one clarifying question, announces the
+route and the reason in one sentence, then hands off. **It never does the downstream work
+itself.**
+
+Routing:
+
+| Situation | Route to |
+|---|---|
+| No `.ux/USERS.md`, and the request is about who the user is | `ux-user-context` |
+| Idea or request with no clear problem statement | `ux-discover` |
+| Needs to plan or synthesise research, or validate with real users | `ux-research` |
+| A brief exists and the user wants a design direction | `ux-design-spec` |
+| "I'm about to build X, am I missing something?" | `ux-design-spec` in developer mode — risk list, not a full spec |
+| A UI already exists and needs reviewing | Out of family — point at `ux-review` |
+
+### `ux-discover` — Problem Brief
+
+| | |
+|---|---|
+| Triggers | An idea or feature request with no clear problem statement |
+| Input | Idea, Jira ticket, Confluence page, or free text |
+| Output | `.ux/briefs/<feature>.md` |
+
+Interviews the user one question at a time. Brief sections: Problem, Who has it, Evidence,
+Why now, Success criteria, Assumptions to validate, Open questions.
+
+Modes: **PM/PO** (evidence and success metrics first), **feature lead** (product fit and edge
+cases), **developer** (short risk list, no full brief), **live interview** (produces probe
+questions during a real interview: warm-up, context, deep dive, reaction, wrap-up).
+
+### `ux-user-context` — USERS.md
+
+| | |
+|---|---|
+| Triggers | "Who is the user?", or another skill needs reusable user context |
+| Input | Cold start: questions to the caller. Expanding: existing docs and briefs |
+| Output | `.ux/USERS.md` |
+
+Personas or jobs-to-be-done, context of use, skill level. **Never invents a persona** — what
+is not known is written as `Unknown` with the question that would resolve it. Appends to an
+existing `USERS.md` rather than overwriting.
+
+### `ux-research` — research plans and synthesis
+
+| | |
+|---|---|
+| Triggers | "How do we validate this?", "help me plan research", "here are my interview notes" |
+| Input | A question to answer, or raw notes |
+| Output | `.ux/research/<topic>.md` |
+
+**Deliberately cut for POC** to three outputs: a research plan (question, method, participants,
+what would change our mind), a discussion guide, and synthesis of supplied notes into tagged
+insights. The ideation doc lists nine more deliverables — usability test reports, surveys,
+recruitment, journey maps, opportunity maps, personas, prioritised recommendations. Personas
+belong to `ux-user-context`; the rest are listed as out of scope inside the skill so it says
+so rather than improvising a thin version.
+
+This is the skill most at risk of becoming a kitchen sink. If it feels thin at demo time, cut
+it from the POC rather than widening it.
+
+### `ux-design-spec` — Design spec
+
+| | |
+|---|---|
+| Triggers | A Problem Brief exists and the user wants a design direction |
+| Input | `.ux/briefs/<feature>.md`, `.ux/USERS.md`, `.ux/surface-map.md` |
+| Output | `.ux/specs/<feature>.md` |
+
+Three phases, in order:
+
+1. **Overengineering gate.** Describe the smallest version that solves the brief's problem.
+   Anything larger must be justified against the brief; unjustified scope goes to
+   **Out of scope** with the reason it was cut.
+2. **Spec.** Flows, entry points, placement in the existing navigation, states, copy, the
+   simplest alternative considered, out of scope.
+3. **Pre-build heuristic check.** The subset of the family's criteria that is meaningful
+   without a UI: Clarity, Efficiency, Error prevention, Empty state, Trust/confidence, Data
+   safety, Cognitive load. Visual criteria (Affordance, Visual hierarchy, Loading states)
+   wait for `ux-review` on a real UI.
+
+The heuristic check is a **phase of this skill, not a separate skill**. The ideation doc's MVP
+list implies a fourth skill; a skill that only ever runs on this skill's output, at one point
+in its flow, is a section.
+
+If `.ux/surface-map.md` is missing, offer to draft one from the repo and have the user confirm
+it before using it.
+
+Ends by naming the handoff: `/to-spec` or `/to-tickets`. It does not write to Jira.
+
+## Build order
+
+1. `ux-discover` — the demo centrepiece, and it defines the brief format everything downstream reads.
+2. `ux-design-spec` — consumes the brief; proves the end-to-end path.
+3. `ux-user-context` — unblocks "who is the user?", the doc's headline question.
+4. `ux-companion` router — written last of the four so it routes to skills whose shapes are settled.
+5. `ux-research` — broadest, cut hardest, least load-bearing for the demo.
+6. `README.md` + golden scenarios.
+
+## How we will know it worked
+
+`evals/golden-scenarios.md`, run by hand — no eval harness for a POC. Five scenarios:
+
+1. **Vague idea** → router picks `ux-discover`; brief has a real problem statement, not a restatement of the idea.
+2. **Feature that is too large** → `ux-design-spec` cuts something real into Out of scope, with a reason.
+3. **"Who is this for?" with no `.ux/`** → router picks `ux-user-context`; unknowns stay marked `Unknown`.
+4. **Developer quick-check** → a short risk list, no full spec, no interview.
+5. **Existing `.ux/` context** → skills read it and do not re-ask what is already written down.
+
+Pass criteria across all five: nothing is invented, every key decision is Evidence or flagged
+Assumption, and Out of scope contains real cuts rather than things nobody proposed.
+
+## Risks
+
+| Risk | Mitigation |
+|---|---|
+| Five skills is more than the original MVP's three, in a hackathon timebox | Build order is value-ordered. If time runs out, stop after step 4 — the router plus three skills is still a complete demo. |
+| `ux-research` is broad enough to swallow the timebox | Cut to three outputs, everything else explicitly listed as out of scope. Drop the skill entirely if it is thin at demo time. |
+| Skills ask too many questions and the demo drags | "Stop when clear enough" is a stated behaviour, and the demo uses a prepared scenario. |
+| `.agents/skills/` discovery differs per agent | Verify discovery in Claude Code before building further; document the fallback in the README. |
+
+## Deferred
+
+| Thing | Add when |
+|---|---|
+| `ux-evidence`, `ux-competitor` | Marked NO in the POC scope column. After the POC lands. |
+| Confluence publishing | Someone outside a repo needs to read the output. |
+| Direct Jira work-item creation | `/to-spec` and `/to-tickets` prove insufficient. |
+| Shared product-level `USERS.md` | A second repo in the same product needs the same personas. |
+| Generated or crawled surface map | The hand-written map is measurably the bottleneck. |
+| `references/` splits, eval harness | A `SKILL.md` passes ~300 lines; golden scenarios get run often enough that by-hand hurts. |
