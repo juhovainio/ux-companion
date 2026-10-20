@@ -9,24 +9,35 @@ already exist.
 ```
 ux-companion (router)
       │
-      ├─ ux-user-context   who is this for?        → .ux/USERS.md
-      ├─ ux-research       is this assumption true? → .ux/research/<topic>.md
-      ├─ ux-discover       what is the problem?     → .ux/briefs/<feature>.md
-      └─ ux-design-spec    how should it work?      → .ux/specs/<feature>.md
+      ├─ ux-user-context   who is this for?         → .ux/USERS.md
+      ├─ ux-research       is this assumption true?  → .ux/research/<topic>.md
+      ├─ ux-discover       what is the problem?      → .ux/briefs/<feature>.md
+      ├─ ux-concepts       how else could we do it?  → .ux/concepts/<feature>.md
+      │                                                .ux/PRINCIPLES.md
+      ├─ ux-design-spec    how should it work?       → .ux/specs/<feature>.md
+      └─ ux-prototype      can I see it?             → .ux/prototypes/<feature>.html
                                  │
-                                 └─→ /to-spec, /to-tickets → (built) → ux-review
+                                 └─→ ux-review, /to-spec, /to-tickets
 ```
+
+The shape of the practice, not just the file list: **discover → diverge → converge → make it
+touchable → evaluate.** The middle two are where most teams skip straight from a problem to a
+specification of the first idea anyone said.
 
 ## Why
 
-Two failure modes this is built to prevent:
+Four failure modes this is built to prevent:
 
 - **Building the wrong thing well.** Nobody wrote down who the user is or what problem this
   solves, so the team optimises a solution to a problem that was never stated.
 - **Overengineering.** The spec grows a settings page, an admin view and analytics before
   anyone has used version one.
+- **Building the first thing anyone said.** No alternative was ever on the table, so the
+  direction was chosen by whoever spoke first rather than by anyone deciding.
+- **Shipping the unobjectionable.** Every heuristic passes, nothing is wrong with it, and
+  nobody mentions it to a colleague.
 
-Against both, the family holds five lines:
+Against all four, the family holds seven lines:
 
 1. **Evidence or Assumption, never neither.** Every claim is tagged. Assumptions that drive
    decisions are flagged. A thin-but-honest brief tells the team to go get evidence; a brief
@@ -42,6 +53,13 @@ Against both, the family holds five lines:
 5. **Both lenses.** Every criterion is applied twice: to a person operating an interface, and
    to an agent calling a tool. Findability for an agent is the tool description it reads
    before acting, not a menu it can see.
+6. **Diverge once, then narrow.** `ux-concepts` is the only place the work gets wider — prior
+   art, a reframe, five directions that differ in approach rather than in degree. It ends with
+   one choice, so nothing downstream gets bigger. The spec then minimises the best of five
+   instead of the first of one.
+7. **The floor is not the ceiling.** Themes B–J are satisfied by the absence of problems.
+   Theme L asks what is actually good here — the one moment someone would screenshot, and the
+   honest answer when there isn't one.
 
 ## Install
 
@@ -50,30 +68,32 @@ Copy or symlink into the repo you are working in:
 
 ```bash
 git clone <this repo> ~/dev/ux-companion
-ln -s ~/dev/ux-companion/.agents/skills/ux-companion     <your-repo>/.agents/skills/ux-companion
-ln -s ~/dev/ux-companion/.agents/skills/ux-discover      <your-repo>/.agents/skills/ux-discover
-ln -s ~/dev/ux-companion/.agents/skills/ux-user-context  <your-repo>/.agents/skills/ux-user-context
-ln -s ~/dev/ux-companion/.agents/skills/ux-research      <your-repo>/.agents/skills/ux-research
-ln -s ~/dev/ux-companion/.agents/skills/ux-design-spec   <your-repo>/.agents/skills/ux-design-spec
+cd <your-repo> && ln -s ~/dev/ux-companion/.agents/skills .agents/skills
 ```
+
+Symlink the directory, not each skill — then a new skill in this repo appears in yours without
+a second install step.
 
 If your agent only discovers `.claude/skills/`, symlink that to the same place —
 `ln -s ../.agents/skills .claude/skills`, as this repo does for its own dogfooding.
 
 ## Use
 
-Start with the router and let it pick:
+Say what you want. `ux-companion` is the only entry point — the sub-skills are internal
+dispatch targets, so you never need to know their names:
 
 > "Help me design a way to re-run a failed job."
 
-Or call a skill directly when you already know which one you need:
+Where that lands:
 
-| You have | Use |
+| You have | Routes to |
 |---|---|
 | A vague idea or a feature request | `ux-discover` |
 | No idea who the users are | `ux-user-context` |
 | An assumption that needs testing, or raw interview notes | `ux-research` |
-| A brief, and you want a design direction | `ux-design-spec` |
+| A problem, and one obvious solution everyone has already assumed | `ux-concepts` |
+| A chosen direction, and you want flows, states and copy | `ux-design-spec` |
+| A spec, and someone who needs to see it to react to it | `ux-prototype` |
 | "I'm about to build X, am I missing something?" | `ux-design-spec` — developer mode, returns a risk list |
 | A built UI | `ux-review` — different family |
 
@@ -81,11 +101,14 @@ Or call a skill directly when you already know which one you need:
 
 ```
 .ux/
-  USERS.md              # personas / JTBD, context of use, skill level
-  surface-map.md        # product areas, navigation, patterns, vocabulary
-  briefs/<feature>.md   # Problem Briefs
-  specs/<feature>.md    # Design specs
-  research/<topic>.md   # research plans, discussion guides, insights
+  USERS.md                # personas / JTBD, context of use, skill level
+  PRINCIPLES.md           # the product's design stance, as trade-offs
+  surface-map.md          # product areas, navigation, patterns, vocabulary
+  briefs/<feature>.md     # Problem Briefs
+  concepts/<feature>.md   # directions explored, one chosen, the rest and what they were better at
+  specs/<feature>.md      # Design specs
+  prototypes/<feature>.*  # one self-contained HTML file, or an exact session transcript
+  research/<topic>.md     # research plans, discussion guides, insights
 ```
 
 Markdown in the repo, so it is diffable, reviewable, and readable by the next skill. The
@@ -93,8 +116,10 @@ second feature starts with what the first one learned instead of a blank page.
 
 ## Not built yet
 
-`ux-evidence` (transcripts and support tickets into a tagged evidence log) and `ux-competitor`
-(how adjacent products solve this). The skills say so rather than improvising a thin version.
+`ux-evidence` (transcripts and support tickets into a tagged evidence log), and `ux-competitor`
+as a standing view of the market — `ux-concepts` Phase 1 sweeps prior art for the decision in
+front of you, which is not the same as keeping a landscape current. The skills say so rather
+than improvising a thin version.
 
 Also deliberately absent: Confluence publishing, direct Jira work-item creation, and a
 generated or crawled surface map. See [`plans/poc-plan.md`](plans/poc-plan.md) for what each is
@@ -105,16 +130,18 @@ waiting on.
 ```
 .agents/skills/<skill>/SKILL.md   the skills — one self-contained file each
 .agents/skills/ux-companion/
-  references/design-questions.md  Themes A–K — the shared criteria, read by three skills
+  references/design-questions.md  Themes A–L — the shared criteria, read by four skills
 plans/poc-plan.md                 decisions, contracts, build order, deferred work
 plans/reconciliation.md           comparison with the parallel jussi-exploration branch
-evals/golden-scenarios.md         five scenarios, run by hand
+evals/golden-scenarios.md         seven scenarios, run by hand
 evals/check_skills.py             frontmatter validation — run after editing any skill
 ```
 
-Themes A–J generalise the `ux-review` heuristics to the pre-build stage; K is the one
-generative theme. They live in one file because three skills read them — edit there, never
-restate a theme inside a skill.
+Themes A–J generalise the `ux-review` heuristics to the pre-build stage and form a floor: pass
+them all and nothing is wrong with the design. K originates adjacent value; L asks what is
+actually good here, and is the only theme that can fail a design for being merely correct. They
+live in one file because four skills read them — edit there, never restate a theme inside a
+skill.
 
 ```bash
 python3 evals/check_skills.py

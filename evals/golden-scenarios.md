@@ -1,6 +1,6 @@
 # Golden scenarios
 
-Five scenarios, run by hand. No eval harness for a POC — add one when running these manually
+Seven scenarios, run by hand. No eval harness for a POC — add one when running these manually
 starts hurting.
 
 Run each in a scratch directory so `.ux/` starts in a known state. Record pass/fail and what
@@ -113,6 +113,60 @@ them, or returns a generic checklist that ignores the repo.
 
 **Fails if** it asks a question `.ux/` already answers, or writes a spec that names no existing
 pattern.
+
+---
+
+## 6. Divergence that actually diverges
+
+**State:** a brief exists for a narrow problem. No `.ux/PRINCIPLES.md`.
+**Input:** "What are our options here?"
+
+**Expect**
+
+- Router picks `ux-concepts`.
+- It drafts `.ux/PRINCIPLES.md` and **shows it for correction** before using it. Each principle
+  names a trade-off ("we would rather X than Y"), not a virtue.
+- Prior art is searched, and every claim about another product is a link or is tagged
+  `**Assumption:**`. Nothing is asserted about a competitor from memory as fact.
+- At least five directions, filling the required slots — including the conventional baseline
+  and the smallest possible one, which is sometimes documentation or a better default.
+- The directions **differ in approach, not in degree.** Apply the difference test: two that
+  would produce the same flow with different labels are one direction.
+- One recommendation, scored against the brief's success criteria and the principles before
+  feasibility, and **the user is asked to choose** rather than told.
+- Each rejected direction records what it was better at.
+
+**Fails if** the five directions are one idea in five sizes, a competitor behaviour is stated
+without a source, feasibility decides the ranking, a spec or flow gets written here, or it
+hands a direction to `ux-design-spec` without the user agreeing to it.
+
+---
+
+## 7. Prototype someone can react to
+
+**State:** `.ux/specs/<feature>.md` exists with a populated Copy and States section.
+**Input:** "Can I see this?"
+
+**Expect**
+
+- Router picks `ux-prototype`.
+- One self-contained file. No build step, no npm, no framework, no CDN link — it opens by
+  double-clicking and works offline.
+- **Every string comes from the spec's Copy section, verbatim.** Anything new is flagged in the
+  handback and offered back to the spec.
+- Empty, in-progress, error and success states all exist and are **reachable by clicking**, via
+  a visibly non-design prototype-controls strip.
+- Semantic HTML, labelled inputs, keyboard-reachable with visible focus.
+- The file says at the top that it is a prototype and not the implementation.
+- The handback says what to ask the person looking at it — a task to perform, not an opinion to
+  give.
+- For a CLI or agent-facing feature, the artefact is an exact transcript — the real output text
+  and the real result shape, including the failure and the empty case — not a description of
+  what the output would contain.
+
+**Fails if** only the happy path is built, the error state takes four correct steps to reach,
+copy is invented without being flagged, it pulls in a library, it uses real user data, or it
+asks "what do you think?" instead of giving the user a task to run.
 
 ---
 

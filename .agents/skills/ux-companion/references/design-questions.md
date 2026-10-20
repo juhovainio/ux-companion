@@ -1,9 +1,13 @@
 # UX Companion — Themes
 
 The shared criteria asset for this skill family. `ux-discover` reasons through Theme A;
-`ux-design-spec` reasons through B–J in its pre-build heuristic check and K in its spec
-(K needs both A and B settled, so it lands there rather than in the brief);
-`ux-user-context` uses the Human/Agent lens distinction.
+`ux-concepts` works the solution space between A and B; `ux-design-spec` reasons through B–J in
+its pre-build heuristic check, and through K and L in its spec (both need A and B settled, so
+they land there rather than in the brief); `ux-user-context` uses the Human/Agent lens
+distinction.
+
+B–J are a **floor**: pass all of them and the result is unobjectionable, which is not the same
+as good. L is the **ceiling**, and it is the one that decides whether anyone remembers this.
 
 Authored on the `jussi-exploration` branch and vendored here unchanged. Themes A–J generalize
 the `ux-review` / `cli-review` criteria to the pre-build stage; the theme-to-criterion mapping
@@ -25,6 +29,7 @@ a skill — a second copy will drift from this one.
 - I — Complexity budget
 - J — Empty & edge states
 - K — Product opportunities
+- L — Craft & the signature moment
 
 ## How to use these themes
 
@@ -188,3 +193,33 @@ something the brief already decided — the same flow, the same consumer, data a
 produced — with no problem statement of its own. If stating it honestly would need its own
 Theme A to justify why it matters, it's a separate idea; name it as one rather than folding it
 in here.
+
+## L — Craft & the signature moment
+
+Themes B–J are satisfied by the absence of problems. Nothing in them is ever satisfied by the
+presence of something good, which is why a design can pass all nine and still be the kind of
+thing nobody mentions to a colleague. This theme is the only one that asks for a ceiling.
+
+Which single moment in this flow would someone screenshot, quote, or still remember next week
+— and does the design currently have one at all? What does it do at the point of highest
+tension, which is almost always the long wait, the irreversible confirm, the first empty run,
+or the failure? Where is a default chosen so well that the consumer never has to decide?
+
+A signature moment is **cheap and specific**: one state, one transition, one sentence of copy,
+one default. It is not a feature, and its cost is measured in minutes. If it would need its own
+problem statement, it is Theme K or it is nothing — the ceiling is reached by doing the
+existing thing unusually well, never by adding another thing.
+
+- **Human lens**: the empty state that teaches the product instead of apologising for itself;
+  the error written in plain words that names what to do next; the one transition that makes a
+  wait feel handled rather than hung; the default so right that nobody opens settings. Also the
+  inverse — the moment of friction you deliberately keep, because the destructive action
+  *should* feel heavy.
+- **Agent lens**: craft is measured in round trips avoided. A result shape complete enough that
+  no second call is needed; an error naming the exact correction, so the retry is right the
+  first time; a description precise enough that the right tool is picked without a guess. The
+  signature moment for an agent is the chain that runs to completion without a human
+  unsticking it.
+
+Judge this one against the product's own `.ux/PRINCIPLES.md` where it exists. Craft without a
+stance is decoration, and it shows: it reads as effort spent, not as a point being made.

@@ -9,7 +9,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS = sorted((ROOT / ".agents/skills").glob("*/SKILL.md"))
-KNOWN = {"ux-companion", "ux-discover", "ux-user-context", "ux-research", "ux-design-spec"}
+KNOWN = {"ux-companion", "ux-discover", "ux-user-context", "ux-research", "ux-concepts",
+         "ux-design-spec", "ux-prototype"}
 
 
 def parse_frontmatter(text):
@@ -33,7 +34,7 @@ def check(path):
     slug = path.parent.name
     text = path.read_text(encoding="utf-8")
 
-    # Three skills read the shared themes by relative path. A rename here is silent at runtime.
+    # Four skills read the shared themes by relative path. A rename here is silent at runtime.
     for ref in set(re.findall(r"`(\.\./[\w./-]+\.md)`", text)):
         if not (path.parent / ref).resolve().is_file():
             yield f"references {ref}, which does not resolve"

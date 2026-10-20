@@ -161,8 +161,10 @@ Leave a section out rather than filling it with filler. An empty `Evidence` sect
 honest `**Assumption:**` line is a better brief than six invented bullets.
 
 After writing, show the user the problem statement and the assumptions that drive decisions,
-and tell them the next step: `ux-design-spec` for a design direction, or `ux-research` if the
-assumptions need validating before anyone designs anything.
+and tell them the next step: `ux-concepts` to explore how this could be solved before anyone
+specifies one way, or `ux-research` first if the assumptions need validating before anyone
+designs anything. Point at `ux-design-spec` directly only when the user already knows which
+direction they are taking and wants it written up.
 
 ## Developer mode
 

@@ -1,7 +1,7 @@
 ---
 name: ux-research
-description: Internal — do not invoke directly. Plans user research and synthesises raw interview or usability-session notes into tagged insights. Produces research plans, discussion guides and insight summaries in `.ux/research/`.
-allowed-tools: Read, Write, Glob, Grep
+description: Internal — do not invoke directly. Plans user research and synthesises raw interview or usability-session notes into tagged insights. Reads published findings before proposing a study. Produces research plans, discussion guides and insight summaries in `.ux/research/`.
+allowed-tools: Read, Write, Glob, Grep, WebSearch
 ---
 
 # UX Research
@@ -33,6 +33,14 @@ repo already answers wastes the scarcest resource here, which is a real user's h
 
 If a brief exists, start from its **assumptions that drive decisions** — those are, by
 construction, the things most worth validating.
+
+**Desk research before field research.** Where a published finding would already settle the
+question — an established usability result, a study on the same interaction — search for it
+first, per *Grounding in research* in `../ux-companion/references/design-questions.md`. If the
+literature answers it, say so and do not run the study; spend the sessions on the part that is
+specific to these users, which is the part nobody else can have answered. A general finding
+never overrides what this team knows about *their* users — where they diverge, that divergence
+is the thing worth researching.
 
 ## Research plan
 

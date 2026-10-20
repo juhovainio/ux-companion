@@ -11,10 +11,13 @@ ux-companion (router)
       │
       ├─ ux-user-context ──┐
       ├─ ux-research ──────┤
-      ├─ ux-discover ──────┤──→ ux-design-spec ──→ /to-spec, /to-tickets
-      │                     │
-      └─────────────────────┘        (then, once built: ux-review)
+      ├─ ux-discover ──────┴──→ ux-concepts ──→ ux-design-spec ──→ ux-prototype ──→ ux-review
+                                                       │
+                                                       └──→ /to-spec, /to-tickets
 ```
+
+`ux-concepts` and `ux-prototype` are post-POC additions — see *Beyond the POC* below for what
+they fix. The five-skill POC shape is what the Decisions table and Build order describe.
 
 ## Decisions
 
@@ -235,13 +238,41 @@ asked that the request, the repo or `.ux/` already answers.
 
 | Thing | Add when |
 |---|---|
-| `ux-evidence`, `ux-competitor` | Marked NO in the POC scope column. After the POC lands. |
+| `ux-evidence` | Marked NO in the POC scope column. After the POC lands. |
+| `ux-competitor` as a standing landscape | `ux-concepts` Phase 1 covers the per-decision sweep. Build this when someone needs the market view to persist between decisions. |
 | Confluence publishing | Someone outside a repo needs to read the output. |
 | Direct Jira work-item creation | `/to-spec` and `/to-tickets` prove insufficient. |
 | Shared product-level `USERS.md` | A second repo in the same product needs the same personas. |
 | Generated or crawled surface map | The hand-written map is measurably the bottleneck. |
 | Eval harness | Golden scenarios get run often enough that by hand hurts. |
 | Merging the `jussi-exploration` branch structurally | Jussi has weighed in. See [`reconciliation.md`](reconciliation.md) — the strict improvements are already folded in; the structural call is open. |
+
+## Beyond the POC: what the five skills could not do
+
+The POC family is a reduction machine — find the problem, cut the scope, check the result. Run
+end to end, it reliably produces a competent version of **whatever idea was mentioned first**,
+and it has no way to tell a design that merely passes from one anyone would care about. Three
+structural gaps, and what was added for each:
+
+| Gap | Why it mattered | Added |
+|---|---|---|
+| No divergence anywhere | Brief → spec means the direction was chosen by whoever spoke first. Theme K is the only generative beat and is deliberately scope-bound, so it cannot propose a different approach. | `ux-concepts` — prior art, reframe, five directions that differ in approach, converge on one. Divergence in thinking; the overengineering gate still runs downstream, so nothing gets bigger. |
+| No stated point of view | With no stance, choosing between directions is arbitrary and every spec re-derives taste from zero. | `.ux/PRINCIPLES.md`, drafted and confirmed once by `ux-concepts`, read by everything after. Trade-off shaped ("rather X than Y") — a principle that rules nothing out does no work. |
+| B–J is a floor with no ceiling | Every theme is satisfied by the *absence* of a problem. A design can pass all nine and be unmemorable, and nothing in the family notices. | Theme L — craft and the signature moment — as a spec section alongside K, with "it does not have one" as a valid and useful answer. |
+
+And one practical gap: `ux-review` evaluates built interfaces, so every criterion needing a
+real surface waited on engineering. `ux-prototype` closes it — one self-contained HTML file, or
+an exact session transcript for a CLI or agent-facing feature. Nobody has ever decided they
+loved a product by reading a spec; a prototype moves the disagreement forward by a month, while
+changing it still costs an afternoon.
+
+Phase 3 of `ux-design-spec` also now requires a stance change before the check, and says so in
+the report when it ran single-context. Checking your own spec in the frame you wrote it in
+finds typography, not flaws.
+
+**Not added, deliberately:** a crit skill (the stance change plus `ux-prototype`'s reaction loop
+covers it), a design-system or token skill (nothing in `.ux/` is visual yet), and narrative or
+presentation output (that is downstream of whether the design is any good).
 
 ## Reconciled with `jussi-exploration`
 

@@ -1,6 +1,6 @@
 ---
 name: ux-companion
-description: Entry point for product and UX work before or during building — reads `.ux/` context and routes internally to the right companion skill, so the user never needs to know any of their names. Use when someone asks "help me design…", "is this worth building?", "who is this for?", "do we have personas", "can you scope this feature", "how should this work", "write the spec", "this feels too big", "how do we find out if this is true", "help me plan some research", "write me a discussion guide", "I'm about to build X, am I missing something?", or hands over a vague idea, feature request, Jira ticket or Confluence page with no clear problem statement. Do NOT use when a built UI needs reviewing (use ux-review).
+description: Entry point for product and UX work before or during building — reads `.ux/` context and routes internally to the right companion skill, so the user never needs to know any of their names. Use when someone asks "help me design…", "is this worth building?", "who is this for?", "do we have personas", "can you scope this feature", "how should this work", "write the spec", "this feels too big", "what are our options", "how else could we solve this", "is there a better way to do this", "can I see it", "make me a prototype", "how do we find out if this is true", "help me plan some research", "write me a discussion guide", "I'm about to build X, am I missing something?", or hands over a vague idea, feature request, Jira ticket or Confluence page with no clear problem statement. Do NOT use when a built UI needs reviewing (use ux-review).
 allowed-tools: Read, Glob, Grep, Skill
 ---
 
@@ -9,13 +9,16 @@ allowed-tools: Read, Glob, Grep, Skill
 You are a router. Your job is to pick the right skill and hand
 over — **not to do the downstream work yourself.**
 
-The family covers the path from "I have an idea" to "I have a design spec I can defend", and
-sits upstream of `ux-review`, which reviews interfaces that already exist.
+The family covers the path from "I have an idea" to "here is a prototype of the direction we
+chose, and the reasons we rejected the others". It sits upstream of `ux-review`, which reviews
+interfaces that already exist — and now feeds it a prototype to review before anyone builds.
 
 ```
 ux-user-context ─┐
 ux-research ─────┤
-ux-discover ─────┴─→ ux-design-spec ─→ /to-spec, /to-tickets ─→ (built) ─→ ux-review
+ux-discover ─────┴─→ ux-concepts ─→ ux-design-spec ─→ ux-prototype ─→ ux-review
+                      (diverge)       (converge)       (make it real)
+                                            └─→ /to-spec, /to-tickets
 ```
 
 ## Step 1 — Read the context
@@ -23,8 +26,11 @@ ux-discover ─────┴─→ ux-design-spec ─→ /to-spec, /to-tickets
 Check what already exists before deciding anything:
 
 - `.ux/USERS.md` — is there user context?
+- `.ux/PRINCIPLES.md` — does the product have a stated design stance?
 - `.ux/briefs/` — is there a brief for this feature already?
+- `.ux/concepts/` — have directions been explored and one chosen?
 - `.ux/specs/` — is there a spec already?
+- `.ux/prototypes/` — is there something touchable already?
 - `.ux/surface-map.md` — is the product surface mapped?
 - `.ux/research/` — is there research on this?
 
@@ -38,11 +44,20 @@ design this" with no brief needs `ux-discover` first, whatever they asked for.
 | An idea, feature request or ticket with no clear problem statement | `ux-discover` |
 | "Who is the user?" / "who are we building for?", or no `.ux/USERS.md` and the request depends on knowing | `ux-user-context` |
 | An assumption needs validating, research needs planning, or raw interview notes need synthesising | `ux-research` |
-| A brief exists and the user wants a design direction, flows, or a scope cut | `ux-design-spec` |
+| "What are our options?", "how else could we solve this?", "is there a better way?" | `ux-concepts` |
+| A brief exists, nothing in `.ux/concepts/`, and the user wants to design | `ux-concepts` — see the tiebreak below |
+| A direction is chosen, or the user declined to explore any, and they want flows, states, copy or a scope cut | `ux-design-spec` |
+| A spec exists and someone wants to see, feel or show it | `ux-prototype` |
 | "I'm about to build X, am I missing something?" | `ux-design-spec`, developer mode — a risk list, not a spec |
 | "This feels too big" / "are we overengineering this?" | `ux-design-spec` — the overengineering gate is its first phase |
 | The user is in a live user interview right now | `ux-discover`, live interview mode |
 | A UI already exists and needs evaluating | Out of this family — point at `ux-review` and stop |
+
+**The tiebreak.** "Design this" with a brief and no concepts is the ambiguous case, and it is
+the one the family exists to catch. Route to `ux-concepts`, say it is a short detour and that
+they can skip straight to the spec in one sentence. Do not insist twice — a team that has
+already decided is converging on purpose, and that is recorded in the spec's
+`Simplest alternative considered` rather than argued about at the door.
 
 **Ask at most one clarifying question**, and only when two routes are genuinely plausible and
 would produce different work. Ask it as a specific binary choice, never as an open "what would
@@ -70,9 +85,11 @@ it.
 | Just finished | Usually next |
 |---|---|
 | `ux-user-context` | `ux-discover` — now scope the problem |
-| `ux-discover` | `ux-design-spec`, or `ux-research` first if the brief's decision-driving assumptions are unvalidated |
-| `ux-research` | `ux-user-context` to fold findings into `USERS.md`, then `ux-discover` or `ux-design-spec` |
-| `ux-design-spec` | `/to-spec` or `/to-tickets`, then `ux-review` once it is built |
+| `ux-discover` | `ux-concepts`, or `ux-research` first if the brief's decision-driving assumptions are unvalidated |
+| `ux-research` | `ux-user-context` to fold findings into `USERS.md`, then `ux-discover` or `ux-concepts` |
+| `ux-concepts` | `ux-design-spec` on the chosen direction — once the user has chosen it |
+| `ux-design-spec` | `ux-prototype` to make it touchable, then `/to-spec` or `/to-tickets` |
+| `ux-prototype` | `ux-review` on the prototype, then back to `ux-design-spec` with what it revealed |
 
 ## Family conventions
 
@@ -93,25 +110,35 @@ Every skill here follows these. Hold them to it.
    tool, and most products have both. The shared themes in
    `references/design-questions.md` carry a Human lens and an Agent lens on each theme — apply
    both unless the consumer is clearly only one.
+7. **Diverge before converging, once.** The first idea anyone said is a candidate, never the
+   plan. `ux-concepts` is the one place the work gets wider; everything after it narrows. A
+   team that goes from brief straight to spec has chosen a direction without noticing it chose.
+8. **The floor is not the ceiling.** Themes B–J are satisfied by the absence of problems. Theme
+   L asks what is actually good here. A design that clears B–J and has no answer to L is
+   correct and forgettable — say so rather than passing it.
 
 ## Shared criteria
 
-`references/design-questions.md` holds Themes A–K, the family's single criteria asset.
-`ux-discover` reasons through Theme A, `ux-design-spec` through B–J in its heuristic check and
-K in its spec, `ux-user-context` uses the Human/Agent lens distinction. It lives under this
-skill because it belongs to the family, not to any one member. Edit it there — a theme restated
-inside a skill becomes a second copy that drifts.
+`references/design-questions.md` holds Themes A–L, the family's single criteria asset.
+`ux-discover` reasons through Theme A, `ux-concepts` works the solution space between A and B,
+`ux-design-spec` reasons through B–J in its heuristic check and K and L in its spec,
+`ux-user-context` uses the Human/Agent lens distinction. It lives under this skill because it
+belongs to the family, not to any one member. Edit it there — a theme restated inside a skill
+becomes a second copy that drifts.
 
 ## Scope
 
-In this family: `ux-discover`, `ux-user-context`, `ux-research`, `ux-design-spec`.
+In this family: `ux-discover`, `ux-user-context`, `ux-research`, `ux-concepts`,
+`ux-design-spec`, `ux-prototype`.
 
 Not built yet — say so rather than improvising a thin version:
 
 - `ux-evidence` — analysing transcripts, support tickets and comments into a tagged evidence
   log. Until it exists, `ux-discover` can take notes as interview input and `ux-user-context`
   can fold them into `USERS.md`.
-- `ux-competitor` — how adjacent products solve the same problem.
+- `ux-competitor` — a standing landscape of how adjacent products solve the same problem.
+  `ux-concepts` Phase 1 does a per-problem sweep, which covers the design decision in front of
+  you; it does not maintain a view of the market over time.
 
 ## Do not
 
